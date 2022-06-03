@@ -55,7 +55,6 @@ namespace GetSmokingData_Techlink
                 Thread backgroundThreadFetchData = new Thread(
                     new ThreadStart(() =>
                     {
-                        
                          // Update progress in progressDialog
                         for (int x = 0; x < comboBox.Items.Count; x++)
                         {
@@ -92,7 +91,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
 
                             sqlAtt.sqlDataAdapterFillDatatable(stringBuilder.ToString(), ref dt);
                             Thread.Sleep(50);
-                            progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Fetching data from database ... ");
+                            progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
                         
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
@@ -139,7 +138,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                                 }
                             }
                             Thread.Sleep(50);
-                            progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Insert values into excel file ... ");
+                            progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }
@@ -173,7 +172,35 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                 return 0;
             }
         }
-        public List<KitchenEmployee> GetKitchenData(string date)
+
+        private void RemoveDuplicates(DataTable table, List<string> keyColumns)
+        {
+            Dictionary<string, string> uniquenessDict = new Dictionary<string, string>(table.Rows.Count);
+            System.Text.StringBuilder sb = null;
+            int rowIndex = 0;
+            DataRow row;
+            DataRowCollection rows = table.Rows;
+            while (rowIndex < rows.Count)
+            {
+                row = rows[rowIndex];
+                sb = new System.Text.StringBuilder();
+                foreach (string colname in keyColumns)
+                {
+                    sb.Append(((string)row[colname]));
+                }
+
+                if (uniquenessDict.ContainsKey(sb.ToString()))
+                {
+                    rows.Remove(row);
+                }
+                else
+                {
+                    uniquenessDict.Add(sb.ToString(), string.Empty);
+                    rowIndex++;
+                }
+            }
+        }
+        public List<KitchenEmployee> GetKitchenData(string date, string nextDate)
         {
             List<KitchenEmployee> kitchenEmployees = new List<KitchenEmployee>();
             try
@@ -181,19 +208,97 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                 SqlAtt sqlAtt = new SqlAtt();
                 SqlSoft sqlSoft = new SqlSoft();
                 int totalRange = GetTotalRangeCount();
-
+                
                 ProgressDialog progressDialog = new ProgressDialog();
-                DataTable sum = new DataTable();
+                DataTable sumEmp = new DataTable();
                 Thread backgroundThreadFetchKitchenData = new Thread(
                     new ThreadStart(() =>
-                    { 
-                        for (int i = 1; i < totalRange + 1; i ++ )
+                    {
+                        string timeIn = "";
+                        string timeOut = "";
+                        string timeRange = "";
+                        for (int i = 0; i < totalRange ; i ++ )
                         {
-
+                            int j = i + 1;
+                            DataTable temp = new DataTable();
+                            timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + j + "'");
+                            timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + j + "'");
+                            
+                            if (j == 10 || j == 11)
+                            {
+                                timeRange = " and ((event_time >= '" + date + " " + timeIn + "' and event_time <= '" + nextDate + " 00:00:00') OR (event_time >= '" + date + " 00:00:00' and event_time <= '" + date + " " + timeOut + " '))";
+                            }
+                            else
+                            {
+                                timeRange = " and event_time >= '" + date + " " + timeIn + "' and event_time <= '" + date + " " + timeOut + "'";
+                            }
+                            
+                            StringBuilder sqlGetEmployeebyTimeRange = new StringBuilder();
+                            sqlGetEmployeebyTimeRange.Append(@"
+with cte as (
+select distinct pin from acc_transaction
+  where LEN(pin) > 0 and UPPER(area_name) like 'KITCHEN' " + timeRange + " )");
+                            sqlGetEmployeebyTimeRange.Append(@" SELECT CONVERT(VARCHAR,a.[event_time], 120) as inDate,a.[pin] as Code
+  FROM [ZKBioAccess].[dbo].[acc_transaction] a where a.pin in (select * from cte) and UPPER(area_name) like 'KITCHEN'
+  and log_id = (select MIN(log_id) from acc_transaction where pin = a.pin " + timeRange + ") order by a.event_time desc");
+                            sqlAtt.sqlDataAdapterFillDatatable(sqlGetEmployeebyTimeRange.ToString(), ref temp);
+                            
+                            List<string> dupColumns = new List<string>();
+                            dupColumns.Add("inDate");
+                            dupColumns.Add("Code");
+                            if (sumEmp.Rows.Count > 0)
+                            {
+                                sumEmp.Merge(temp);
+                                RemoveDuplicates(sumEmp, dupColumns);
+                            }
+                            else
+                            {
+                                sumEmp = temp;
+                            }
+                            progressDialog.UpdateProgress(100 * i / totalRange, "Đang lấy dữ liệu từ server ... ");
                         }
+                        
+                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }));
 
-                        return kitchenEmployees;
+
+                Thread backgroundThreadKitchenReportAdd = new Thread(
+                    new ThreadStart(() =>
+                    {
+                        sumEmp.DefaultView.Sort = "inDate";
+                        sumEmp = sumEmp.DefaultView.ToTable();
+                        for (int i = 0; i < sumEmp.Rows.Count; i++)
+                        {
+                            if (Convert.ToInt32(sumEmp.Rows[i]["Code"].ToString()) < 30000)
+                            {
+                                KitchenEmployee kitchen = new KitchenEmployee();
+                                string[] info = GetEmpDataFromCodeInt(sumEmp.Rows[i]["Code"].ToString()).Split(';');
+                                string[] deptInfo = GetDeptDataFromCodeInt(info[2], info[3]).Split(';');
+                                string tempIn = Convert.ToDateTime(sumEmp.Rows[i]["inDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                                string[] splitDateIn = tempIn.Split(' ');
+
+                                kitchen.Code = info[0];
+                                kitchen.Name = info[1];
+                                kitchen.BigDept = deptInfo[1];
+                                kitchen.Dept = deptInfo[0];
+                                kitchen.sIn = Convert.ToDateTime(sumEmp.Rows[i]["inDate"].ToString()).ToString("HH:mm");
+                                kitchen.Date = splitDateIn[0];
+
+                                kitchenEmployees.Add(kitchen);
+                            }
+                            Thread.Sleep(50);
+                            progressDialog.UpdateProgress(100 * i / sumEmp.Rows.Count, "Thêm dữ liệu vào file excel ... ");
+                        }
+                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                    }
+                ));
+
+                backgroundThreadFetchKitchenData.Start();
+                progressDialog.ShowDialog();
+                backgroundThreadKitchenReportAdd.Start();
+                progressDialog.ShowDialog();
+
+                return kitchenEmployees;
             }catch(Exception)
             {
                 throw;

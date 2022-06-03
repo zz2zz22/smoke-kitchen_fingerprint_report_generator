@@ -82,9 +82,9 @@ namespace GetSmokingData_Techlink
             // 
             this.pic_logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pic_logo.Image = ((System.Drawing.Image)(resources.GetObject("pic_logo.Image")));
-            this.pic_logo.Location = new System.Drawing.Point(5, 12);
+            this.pic_logo.Location = new System.Drawing.Point(8, 12);
             this.pic_logo.Name = "pic_logo";
-            this.pic_logo.Size = new System.Drawing.Size(407, 93);
+            this.pic_logo.Size = new System.Drawing.Size(744, 93);
             this.pic_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pic_logo.TabIndex = 6;
             this.pic_logo.TabStop = false;
@@ -98,7 +98,7 @@ namespace GetSmokingData_Techlink
             this.xuibtn_smoke.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             this.xuibtn_smoke.ClickTextColor = System.Drawing.Color.DodgerBlue;
             this.xuibtn_smoke.CornerRadius = 5;
-            this.xuibtn_smoke.Font = new System.Drawing.Font("Times New Roman", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xuibtn_smoke.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xuibtn_smoke.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.xuibtn_smoke.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.xuibtn_smoke.HoverTextColor = System.Drawing.Color.DodgerBlue;
@@ -120,7 +120,7 @@ namespace GetSmokingData_Techlink
             this.xuibtn_kitchen.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             this.xuibtn_kitchen.ClickTextColor = System.Drawing.Color.DodgerBlue;
             this.xuibtn_kitchen.CornerRadius = 5;
-            this.xuibtn_kitchen.Font = new System.Drawing.Font("Times New Roman", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xuibtn_kitchen.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xuibtn_kitchen.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.xuibtn_kitchen.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.xuibtn_kitchen.HoverTextColor = System.Drawing.Color.DodgerBlue;
@@ -140,11 +140,12 @@ namespace GetSmokingData_Techlink
             this.ClientSize = new System.Drawing.Size(764, 568);
             this.Controls.Add(this.pic_logo);
             this.Controls.Add(this.tlp_mainWindow);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainWindow";
+            this.Text = "Get Smoke & Kitchen Report - beta vesion";
             this.tlp_mainWindow.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).EndInit();
