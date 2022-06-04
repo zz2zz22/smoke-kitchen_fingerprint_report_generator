@@ -123,6 +123,16 @@ namespace GetSmokingData_Techlink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap techlinkFunIntro {
+            get {
+                object obj = ResourceManager.GetObject("techlinkFunIntro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap techlinkIntro {
             get {
                 object obj = ResourceManager.GetObject("techlinkIntro", resourceCulture);

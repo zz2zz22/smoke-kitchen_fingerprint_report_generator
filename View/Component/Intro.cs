@@ -16,9 +16,14 @@ namespace GetSmokingData_Techlink
     {
         static Image[] images;
         int frameCount = 0;
+        //Timer t1 = new Timer();
         public Intro()
         {
-            InitializeComponent();    
+            InitializeComponent();
+            //Opacity = 0;      //first the opacity is 0
+            //t1.Interval = 20;  //we'll increase the opacity every 10ms
+            //t1.Tick += new EventHandler(fadeIn);  //this calls the function that changes opacity 
+            //t1.Start();
         }
         Image[] getFrames(Image originalImg)
         {
@@ -49,8 +54,16 @@ namespace GetSmokingData_Techlink
             if (frameCount > images.Length - 1)
                 frameCount = 0;
         }
+        //void fadeIn(object sender, EventArgs e)
+        //{
+        //    if (Opacity >= 1)
+        //        t1.Stop();   //this stops the timer if the form is completely displayed
+        //    else
+        //        Opacity += 0.05;
+        //}
         private void Intro_Load(object sender, EventArgs e)
         {
+            
             object techlinkIntro = Resources.ResourceManager.GetObject("techlinkIntro");
             images = getFrames((Image)techlinkIntro);
 

@@ -127,6 +127,9 @@
   <data name="SmokingReportForm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SmokingReportForm.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="techlinkIntro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\techlinkIntro.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="excel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\excel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -136,7 +139,7 @@
   <data name="KitchenReportForm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KitchenReportForm.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="techlinkIntro" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\techlinkIntro.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="techlinkFunIntro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\techlinkFunIntro.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

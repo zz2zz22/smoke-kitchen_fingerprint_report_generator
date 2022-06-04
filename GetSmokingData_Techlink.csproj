@@ -236,6 +236,7 @@
   <ItemGroup>
     <None Include="Resources\techlinkIntro1.gif" />
     <None Include="Resources\techlinkIntro.gif" />
+    <None Include="Resources\techlinkFunIntro.gif" />
     <Content Include="scale2MES.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
