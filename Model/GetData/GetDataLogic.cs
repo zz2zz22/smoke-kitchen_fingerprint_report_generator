@@ -90,7 +90,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
   drop table #MyTemp2");
 
                             sqlAtt.sqlDataAdapterFillDatatable(stringBuilder.ToString(), ref dt);
-                            Thread.Sleep(50);
+
                             progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
                         
@@ -137,7 +137,6 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                                     employeeSmokings.Add(smoke);
                                 }
                             }
-                            Thread.Sleep(50);
                             progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
@@ -286,7 +285,6 @@ select distinct pin from acc_transaction
 
                                 kitchenEmployees.Add(kitchen);
                             }
-                            Thread.Sleep(50);
                             progressDialog.UpdateProgress(100 * i / sumEmp.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));

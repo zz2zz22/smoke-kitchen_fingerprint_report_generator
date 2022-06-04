@@ -40,7 +40,7 @@ namespace GetSmokingData_Techlink
             this.dtpk_date.CustomFormat = "dd-MM-yyyy";
             this.dtpk_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpk_date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpk_date.Location = new System.Drawing.Point(147, 98);
+            this.dtpk_date.Location = new System.Drawing.Point(151, 81);
             this.dtpk_date.Name = "dtpk_date";
             this.dtpk_date.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpk_date.Size = new System.Drawing.Size(163, 27);
@@ -50,7 +50,7 @@ namespace GetSmokingData_Techlink
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(66, 101);
+            this.label1.Location = new System.Drawing.Point(70, 84);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 23);
             this.label1.TabIndex = 3;
@@ -70,7 +70,7 @@ namespace GetSmokingData_Techlink
             this.btn_exportExcel.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.btn_exportExcel.HoverTextColor = System.Drawing.Color.DodgerBlue;
             this.btn_exportExcel.ImagePosition = XanderUI.XUIButton.imgPosition.Left;
-            this.btn_exportExcel.Location = new System.Drawing.Point(343, 66);
+            this.btn_exportExcel.Location = new System.Drawing.Point(374, 53);
             this.btn_exportExcel.Name = "btn_exportExcel";
             this.btn_exportExcel.Padding = new System.Windows.Forms.Padding(2);
             this.btn_exportExcel.Size = new System.Drawing.Size(269, 92);

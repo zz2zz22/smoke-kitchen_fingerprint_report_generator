@@ -43,12 +43,7 @@ namespace GetSmokingData_Techlink
                     saveFileDialog.CheckPathExists = true;
 
                     if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        if (dateOut == DateTime.Now.ToString("yyyy-MM-dd") || dtpk_dateOut.Value > DateTime.Now || dateIn == DateTime.Now.ToString("yyyy-MM-dd") || dtpk_dateIn.Value > DateTime.Now)
-                        {
-                            MessageBox.Show("Hãy chọn lại ngày!");
-                        }
-
+                    { 
                         GetDataLogic getDataLogic = new GetDataLogic();
                         List<EmployeeSmoking> employeeSmokings = getDataLogic.GetSmokingData(dateNext, dateIn, dateOut);
 
@@ -70,7 +65,6 @@ namespace GetSmokingData_Techlink
                                 MessageBox.Show("File doestn't exist !", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
-
                     }
                 }
             }

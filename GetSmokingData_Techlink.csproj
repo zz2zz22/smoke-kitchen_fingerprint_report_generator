@@ -96,6 +96,12 @@
     <Compile Include="Model\GetData\GetDataLogic.cs" />
     <Compile Include="Model\KitchenEmp.cs" />
     <Compile Include="Model\SmokingEmp.cs" />
+    <Compile Include="View\Component\Intro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Component\Intro.Designer.cs">
+      <DependentUpon>Intro.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Component\ProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\Component\Intro.resx">
+      <DependentUpon>Intro.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Component\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -218,6 +227,8 @@
     <None Include="Resources\load.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\techlinkIntro1.gif" />
+    <None Include="Resources\techlinkIntro.gif" />
     <Content Include="scale2MES.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

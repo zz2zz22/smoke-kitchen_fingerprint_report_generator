@@ -33,12 +33,10 @@ namespace GetSmokingData_Techlink
             this.tlp_mainWindow = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.xuiWidgetPanel1 = new XanderUI.XUIWidgetPanel();
-            this.pic_logo = new System.Windows.Forms.PictureBox();
             this.xuibtn_smoke = new XanderUI.XUIButton();
             this.xuibtn_kitchen = new XanderUI.XUIButton();
             this.tlp_mainWindow.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp_mainWindow
@@ -47,7 +45,7 @@ namespace GetSmokingData_Techlink
             this.tlp_mainWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlp_mainWindow.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tlp_mainWindow.Controls.Add(this.xuiWidgetPanel1, 0, 1);
-            this.tlp_mainWindow.Location = new System.Drawing.Point(5, 111);
+            this.tlp_mainWindow.Location = new System.Drawing.Point(12, 12);
             this.tlp_mainWindow.Name = "tlp_mainWindow";
             this.tlp_mainWindow.RowCount = 2;
             this.tlp_mainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -77,17 +75,6 @@ namespace GetSmokingData_Techlink
             this.xuiWidgetPanel1.Name = "xuiWidgetPanel1";
             this.xuiWidgetPanel1.Size = new System.Drawing.Size(741, 277);
             this.xuiWidgetPanel1.TabIndex = 1;
-            // 
-            // pic_logo
-            // 
-            this.pic_logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.pic_logo.Image = ((System.Drawing.Image)(resources.GetObject("pic_logo.Image")));
-            this.pic_logo.Location = new System.Drawing.Point(8, 12);
-            this.pic_logo.Name = "pic_logo";
-            this.pic_logo.Size = new System.Drawing.Size(744, 93);
-            this.pic_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pic_logo.TabIndex = 6;
-            this.pic_logo.TabStop = false;
             // 
             // xuibtn_smoke
             // 
@@ -137,18 +124,16 @@ namespace GetSmokingData_Techlink
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 568);
-            this.Controls.Add(this.pic_logo);
+            this.ClientSize = new System.Drawing.Size(771, 468);
             this.Controls.Add(this.tlp_mainWindow);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainWindow";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Get Smoke & Kitchen Report - beta vesion";
             this.tlp_mainWindow.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -160,6 +145,5 @@ namespace GetSmokingData_Techlink
         private XanderUI.XUIButton xuibtn_smoke;
         private XanderUI.XUIButton xuibtn_kitchen;
         private XanderUI.XUIWidgetPanel xuiWidgetPanel1;
-        private System.Windows.Forms.PictureBox pic_logo;
     }
 }

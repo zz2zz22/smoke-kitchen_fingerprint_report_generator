@@ -42,15 +42,16 @@ namespace GetSmokingData_Techlink
             object misValue = System.Reflection.Missing.Value;
             try
             {
+                xlApp = new Excel.Application();
+                xlWorkBook = xlApp.Workbooks.Open(pathForm, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+
+                string strWorksheetName = xlWorkSheet.Name;//Get the name of worksheet.   
                 ProgressDialog progressDialog = new ProgressDialog();
                 Thread backgroundThreadSmokeExcel = new Thread(
                    new ThreadStart(() =>
                    {
-                       xlApp = new Excel.Application();
-                       xlWorkBook = xlApp.Workbooks.Open(pathForm, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-                       xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                       string strWorksheetName = xlWorkSheet.Name;//Get the name of worksheet.   
+                       
                        xlWorkSheet.Cells[4, "A"] = "SMOKING REPORT"; // Thêm ngày vào title
                        for (int i = 0; i < employeeSmoking.Count; i++)
                        {
@@ -94,15 +95,15 @@ namespace GetSmokingData_Techlink
             object misValue = System.Reflection.Missing.Value;
             try
             {
+                xlApp = new Excel.Application();
+                xlWorkBook = xlApp.Workbooks.Open(pathForm, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+
+                string strWorksheetName = xlWorkSheet.Name;//Get the name of worksheet.   
                 ProgressDialog progressDialog = new ProgressDialog();
                 Thread backgroundThreadKitchenExcel = new Thread(
                    new ThreadStart(() =>
                    {
-                       xlApp = new Excel.Application();
-                       xlWorkBook = xlApp.Workbooks.Open(pathForm, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-                       xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                       string strWorksheetName = xlWorkSheet.Name;//Get the name of worksheet.   
                        xlWorkSheet.Cells[4, "A"] = "KITCHEN REPORT"; // Thêm ngày vào title
                        for (int i = 0; i < kitchenEmployees.Count; i++)
                        {

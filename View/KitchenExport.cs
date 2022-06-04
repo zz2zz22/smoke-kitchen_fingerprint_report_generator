@@ -58,7 +58,6 @@ namespace GetSmokingData_Techlink
                             MessageBox.Show("File doestn't exist !", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
-
                 }
             }catch(Exception)
             {
