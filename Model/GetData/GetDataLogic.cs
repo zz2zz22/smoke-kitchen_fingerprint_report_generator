@@ -36,19 +36,7 @@ namespace GetSmokingData_Techlink
             string data = sqlSoft.sqlExecuteScalarString(sqlGetDataDept.ToString());
             return data;
         }
-        public DataTable RemoveDeptBreaktimeFromDatatable(string Code, DataTable dt, string date)
-        {
-            SqlHR sqlHR = new SqlHR();
-            SqlSoft sqlSoft = new SqlSoft();
-            string deptCode = sqlHR.sqlExecuteScalarString("select Dept from ZlEmployee where Code like '%-%' and CAST(SUBSTRING(Code, CHARINDEX('-', Code) + 1, LEN(Code)) AS int) = " + Code + " ");
-            if ( deptCode != String.Empty)
-            {
-                string timeIn = sqlSoft.sqlExecuteScalarString("");
-                string timeOut = sqlSoft.sqlExecuteScalarString("");
-                
-            }
-            return dt;
-        }
+        
         #region smokeReport
         public List<EmployeeSmoking> GetSmokingData(DateTime from, DateTime to) //Mot them dieu kien loc gio nghi
         {
@@ -56,8 +44,7 @@ namespace GetSmokingData_Techlink
             try
             {
                 SqlAtt sqlAtt = new SqlAtt();
-                SqlHR sqlHR = new SqlHR();
-                SqlSoft sqlSoft = new SqlSoft();
+                
                 ComboBox comboBox = new ComboBox();
                 StringBuilder sqlGetCode = new StringBuilder();
                 sqlGetCode.Append("select distinct pers_person_pin from att_transaction where att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "'");
@@ -70,7 +57,6 @@ namespace GetSmokingData_Techlink
                 Thread backgroundThreadFetchData = new Thread(
                     new ThreadStart(() =>
                     {
-
                         // Update progress in progressDialog
                         for (int x = 0; x < comboBox.Items.Count; x++)
                         {
@@ -101,7 +87,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
   select a.pers_person_pin as Code, a.att_datetime as TimeIN, b.att_datetime as TimeOUT
   from #MyTemp2 a,
   #MyTemp2 b where a.device_sn = '4879202300002' and b.device_sn = '4879202300009' and b.ID = (a.ID + 1) and a.pers_person_pin = b.pers_person_pin
-and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + next.ToString("yyyy-MM-dd HH:mm:ss") + "' order by a.att_datetime desc drop table #MyTemp drop table #MyTemp2");
+and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime <= '" + next.ToString("yyyy-MM-dd HH:mm:ss") + "' order by a.att_datetime desc drop table #MyTemp drop table #MyTemp2");
                             sqlAtt.sqlDataAdapterFillDatatable(stringBuilder.ToString(), ref dt);
                             
 
@@ -114,11 +100,13 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                 Thread backgroundBreakRemove = new Thread(
                     new ThreadStart(() =>
                     {
+                        SqlHR sqlHR = new SqlHR();
+                        SqlSoft sqlSoft = new SqlSoft();
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            string deptCode = sqlHR.sqlExecuteScalarString("select Dept from ZlEmployee where Code like '%-%' and CAST(SUBSTRING(Code, CHARINDEX('-', Code) + 1, LEN(Code)) AS int) = " + dt.Rows[i]["Code"].ToString());
-                            string timeIn = sqlSoft.sqlExecuteScalarString("select TimeIn from SmokeReport_BreakTime where DeptCode like '" + deptCode + "'");
-                            string timeOut = sqlSoft.sqlExecuteScalarString("select TimeOut from SmokeReport_BreakTime where DeptCode like '" + deptCode + "'");
+                            string deptCode = sqlHR.sqlExecuteScalarString("select [Dept] from ZlEmployee where Code like '%-%' and CAST(SUBSTRING(Code, CHARINDEX('-', Code) + 1, LEN(Code)) AS int) = " + dt.Rows[i]["Code"].ToString());
+                            string timeIn = sqlSoft.sqlExecuteScalarString("select TimeIn from SmokeReport_BreakTime where DeptCode = '" + deptCode + "'");
+                            string timeOut = sqlSoft.sqlExecuteScalarString("select TimeOut from SmokeReport_BreakTime where DeptCode = '" + deptCode + "'");
                             DateTime time = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString());
                             DateTime dIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeIn);
                             DateTime dOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeOut);
@@ -161,19 +149,18 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                                 DateTime tIn = Convert.ToDateTime(splitDateIn[0] + " " + timeIn[0] + ":" + timeIn[1] + ":00");
                                 DateTime tOut = Convert.ToDateTime(splitDateOut[0] + " " + timeOut[0] + ":" + timeOut[1] + ":00");
                                 TimeSpan sub = tOut - tIn;
-                                if (splitDateIn[0] == to.ToString("yyyy-MM-dd")) //add dieu kien breaktime sau
-                                {
-                                    smoke.Code = info[0];
-                                    smoke.Name = info[1];
-                                    smoke.BigDept = deptInfo[1];
-                                    smoke.Dept = deptInfo[0];
-                                    smoke.TotalMinute = sub.TotalMinutes.ToString();
-                                    smoke.sIn = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString()).ToString("HH:mm");
-                                    smoke.sOut = Convert.ToDateTime(dt.Rows[i]["TimeOUT"].ToString()).ToString("HH:mm");
-                                    smoke.Date = splitDateIn[0];
 
-                                    employeeSmokings.Add(smoke);
-                                }
+                                smoke.Code = info[0];
+                                smoke.Name = info[1];
+                                smoke.BigDept = deptInfo[1];
+                                smoke.Dept = deptInfo[0];
+                                smoke.TotalMinute = sub.TotalMinutes.ToString();
+                                smoke.sIn = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString()).ToString("HH:mm");
+                                smoke.sOut = Convert.ToDateTime(dt.Rows[i]["TimeOUT"].ToString()).ToString("HH:mm");
+                                smoke.Date = splitDateIn[0];
+
+                                employeeSmokings.Add(smoke);
+
                             }
                             progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }

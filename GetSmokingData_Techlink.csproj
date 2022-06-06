@@ -107,7 +107,6 @@
     <Compile Include="Controller\ToolSupport.cs" />
     <Compile Include="Model\GetData\GetDataLogic.cs" />
     <Compile Include="Model\KitchenEmp.cs" />
-    <Compile Include="Model\LoadResource\LoadGifToPictureBox.cs" />
     <Compile Include="Model\SmokingEmp.cs" />
     <Compile Include="View\Component\Intro.cs">
       <SubType>Form</SubType>
@@ -121,16 +120,10 @@
     <Compile Include="View\Component\ProgressDialog.Designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\HomeWindow.cs">
+    <Compile Include="View\SubWindow\KitchenExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\HomeWindow.Designer.cs">
-      <DependentUpon>HomeWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\KitchenExport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\KitchenExport.Designer.cs">
+    <Compile Include="View\SubWindow\KitchenExport.Designer.cs">
       <DependentUpon>KitchenExport.cs</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.cs">
@@ -139,10 +132,10 @@
     <Compile Include="View\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\SmokeExport.cs">
+    <Compile Include="View\SubWindow\SmokeExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\SmokeExport.Designer.cs">
+    <Compile Include="View\SubWindow\SmokeExport.Designer.cs">
       <DependentUpon>SmokeExport.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -163,16 +156,13 @@
     <EmbeddedResource Include="View\Component\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\HomeWindow.resx">
-      <DependentUpon>HomeWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\KitchenExport.resx">
+    <EmbeddedResource Include="View\SubWindow\KitchenExport.resx">
       <DependentUpon>KitchenExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\SmokeExport.resx">
+    <EmbeddedResource Include="View\SubWindow\SmokeExport.resx">
       <DependentUpon>SmokeExport.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="GetSmokingData_Techlink_TemporaryKey.pfx" />
@@ -250,17 +240,13 @@
     <None Include="Resources\load.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\techlinkIntro1.gif" />
     <None Include="Resources\techlinkIntro.gif" />
-    <None Include="Resources\techlinkFunIntro.gif" />
-    <None Include="Resources\close.png" />
     <None Include="Resources\logoTechlink.png" />
-    <None Include="Resources\ShinQuestion.gif" />
     <None Include="Resources\z3466999361583_bd67445e00e1efe36ced753cee2aa3e4.jpg" />
-    <None Include="Resources\monkey.gif" />
     <None Include="Resources\FunIntro2.gif" />
-    <None Include="Resources\monkey1.gif" />
-    <None Include="Resources\umaru.gif" />
+    <None Include="Resources\control.png" />
+    <None Include="Resources\cancel.png" />
+    <None Include="Resources\question.png" />
     <Content Include="scale2MES.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

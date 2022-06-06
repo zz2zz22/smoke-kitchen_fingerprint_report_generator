@@ -42,17 +42,13 @@ namespace GetSmokingData_Techlink
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            openChildForm(new HomeWindow());
+            openChildForm(new SmokeExport());
         }
 
-        private void xuiButton1_Click(object sender, EventArgs e)
+        private void xuibtn_closeProgram_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            openChildForm(new HomeWindow());
-        }
     }
 }

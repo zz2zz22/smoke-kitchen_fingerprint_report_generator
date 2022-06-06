@@ -69,7 +69,7 @@ namespace GetSmokingData_Techlink
         }
         private void Intro_Load(object sender, EventArgs e)
         {
-            object techlinkIntro = Resources.ResourceManager.GetObject("techlinkIntro"); // Doi intro bang ten trong resource
+            object techlinkIntro = Resources.ResourceManager.GetObject("techlinkIntro_1"); // Doi intro bang ten trong resource
             images = getFrames((Image)techlinkIntro);
 
             timer.Interval = 60;

@@ -51,7 +51,6 @@ namespace GetSmokingData_Techlink
                 Thread backgroundThreadSmokeExcel = new Thread(
                    new ThreadStart(() =>
                    {
-                       
                        xlWorkSheet.Cells[4, "A"] = "SMOKING REPORT"; // Thêm ngày vào title
                        for (int i = 0; i < employeeSmoking.Count; i++)
                        {

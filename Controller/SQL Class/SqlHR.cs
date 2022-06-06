@@ -26,7 +26,10 @@ namespace GetSmokingData_Techlink
             }
             catch (Exception )
             {
-
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
                 //   MessageBox.Show(ex.Message, "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return String.Empty;
             }

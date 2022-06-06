@@ -26,6 +26,10 @@ namespace GetSmokingData_Techlink
             }
             catch (Exception)
             {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
                 return String.Empty;
             }
 

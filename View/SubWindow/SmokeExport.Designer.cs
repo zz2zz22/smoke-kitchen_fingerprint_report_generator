@@ -34,8 +34,7 @@ namespace GetSmokingData_Techlink
             this.dtpk_dateOut = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_exportExcel = new XanderUI.XUIButton();
-            this.dtgv_smokeBreak = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgv_smokeBreak)).BeginInit();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // dtpk_dateIn
@@ -45,19 +44,20 @@ namespace GetSmokingData_Techlink
             this.dtpk_dateIn.CustomFormat = "dd-MM-yyyy HH:mm:ss";
             this.dtpk_dateIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpk_dateIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpk_dateIn.Location = new System.Drawing.Point(71, 438);
-            this.dtpk_dateIn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpk_dateIn.Location = new System.Drawing.Point(73, 67);
+            this.dtpk_dateIn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtpk_dateIn.Name = "dtpk_dateIn";
-            this.dtpk_dateIn.Size = new System.Drawing.Size(296, 27);
+            this.dtpk_dateIn.Size = new System.Drawing.Size(226, 23);
             this.dtpk_dateIn.TabIndex = 6;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 506);
+            this.label2.Location = new System.Drawing.Point(29, 122);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 23);
+            this.label2.Size = new System.Drawing.Size(43, 19);
             this.label2.TabIndex = 9;
             this.label2.Text = "ĐẾN";
             // 
@@ -67,19 +67,20 @@ namespace GetSmokingData_Techlink
             this.dtpk_dateOut.CustomFormat = "dd-MM-yyyy HH:mm:ss";
             this.dtpk_dateOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpk_dateOut.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpk_dateOut.Location = new System.Drawing.Point(71, 503);
-            this.dtpk_dateOut.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpk_dateOut.Location = new System.Drawing.Point(73, 120);
+            this.dtpk_dateOut.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dtpk_dateOut.Name = "dtpk_dateOut";
-            this.dtpk_dateOut.Size = new System.Drawing.Size(296, 27);
+            this.dtpk_dateOut.Size = new System.Drawing.Size(226, 23);
             this.dtpk_dateOut.TabIndex = 7;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 441);
+            this.label1.Location = new System.Drawing.Point(37, 71);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 23);
+            this.label1.Size = new System.Drawing.Size(32, 19);
             this.label1.TabIndex = 8;
             this.label1.Text = "TỪ";
             // 
@@ -97,47 +98,45 @@ namespace GetSmokingData_Techlink
             this.btn_exportExcel.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.btn_exportExcel.HoverTextColor = System.Drawing.Color.DodgerBlue;
             this.btn_exportExcel.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
-            this.btn_exportExcel.Location = new System.Drawing.Point(601, 438);
-            this.btn_exportExcel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_exportExcel.Location = new System.Drawing.Point(126, 204);
+            this.btn_exportExcel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_exportExcel.Name = "btn_exportExcel";
-            this.btn_exportExcel.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_exportExcel.Size = new System.Drawing.Size(119, 92);
+            this.btn_exportExcel.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_exportExcel.Size = new System.Drawing.Size(89, 75);
             this.btn_exportExcel.TabIndex = 10;
             this.btn_exportExcel.TextColor = System.Drawing.Color.DodgerBlue;
             this.btn_exportExcel.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btn_exportExcel.Click += new System.EventHandler(this.btn_exportExcel_Click);
             // 
-            // dtgv_smokeBreak
+            // label3
             // 
-            this.dtgv_smokeBreak.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgv_smokeBreak.Location = new System.Drawing.Point(15, 14);
-            this.dtgv_smokeBreak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dtgv_smokeBreak.Name = "dtgv_smokeBreak";
-            this.dtgv_smokeBreak.RowHeadersWidth = 51;
-            this.dtgv_smokeBreak.RowTemplate.Height = 24;
-            this.dtgv_smokeBreak.Size = new System.Drawing.Size(376, 331);
-            this.dtgv_smokeBreak.TabIndex = 11;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(93, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(156, 19);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Xuất dữ liệu hút thuốc";
             // 
             // SmokeExport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(732, 542);
-            this.Controls.Add(this.dtgv_smokeBreak);
+            this.ClientSize = new System.Drawing.Size(352, 366);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_exportExcel);
             this.Controls.Add(this.dtpk_dateIn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dtpk_dateOut);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SmokeExport";
             this.Text = "Smoking Report";
             this.Load += new System.EventHandler(this.SmokeExport_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dtgv_smokeBreak)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,7 +149,7 @@ namespace GetSmokingData_Techlink
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtpk_dateOut;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dtgv_smokeBreak;
+        private System.Windows.Forms.Label label3;
     }
 }
 
