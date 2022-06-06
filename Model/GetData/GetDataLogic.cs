@@ -11,7 +11,7 @@ namespace GetSmokingData_Techlink
 {
     public class GetDataLogic
     {
-        
+
         public string GetEmpDataFromCodeInt(string code)
         {
             SqlHR sqlHR = new SqlHR();
@@ -36,36 +36,53 @@ namespace GetSmokingData_Techlink
             string data = sqlSoft.sqlExecuteScalarString(sqlGetDataDept.ToString());
             return data;
         }
-
+        public DataTable RemoveDeptBreaktimeFromDatatable(string Code, DataTable dt, string date)
+        {
+            SqlHR sqlHR = new SqlHR();
+            SqlSoft sqlSoft = new SqlSoft();
+            string deptCode = sqlHR.sqlExecuteScalarString("select Dept from ZlEmployee where Code like '%-%' and CAST(SUBSTRING(Code, CHARINDEX('-', Code) + 1, LEN(Code)) AS int) = " + Code + " ");
+            if ( deptCode != String.Empty)
+            {
+                string timeIn = sqlSoft.sqlExecuteScalarString("");
+                string timeOut = sqlSoft.sqlExecuteScalarString("");
+                
+            }
+            return dt;
+        }
         #region smokeReport
-        public List<EmployeeSmoking> GetSmokingData(string next, string from, string to) //Mot them dieu kien loc gio nghi
+        public List<EmployeeSmoking> GetSmokingData(DateTime from, DateTime to) //Mot them dieu kien loc gio nghi
         {
             List<EmployeeSmoking> employeeSmokings = new List<EmployeeSmoking>();
             try
             {
                 SqlAtt sqlAtt = new SqlAtt();
+                SqlHR sqlHR = new SqlHR();
+                SqlSoft sqlSoft = new SqlSoft();
                 ComboBox comboBox = new ComboBox();
                 StringBuilder sqlGetCode = new StringBuilder();
-                sqlGetCode.Append("select distinct pers_person_pin from att_transaction where att_date >= '" + from + "' and att_date <= '" + to + "'");
+                sqlGetCode.Append("select distinct pers_person_pin from att_transaction where att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "'");
                 sqlAtt.getComboBoxData(sqlGetCode.ToString(), ref comboBox);
                 DataTable dt = new DataTable();
-
+                
                 ProgressDialog progressDialog = new ProgressDialog();
 
+                DateTime next = to.AddHours(1);
                 Thread backgroundThreadFetchData = new Thread(
                     new ThreadStart(() =>
                     {
-                         // Update progress in progressDialog
+
+                        // Update progress in progressDialog
                         for (int x = 0; x < comboBox.Items.Count; x++)
                         {
                             StringBuilder stringBuilder = new StringBuilder();
+
                             stringBuilder.Append(@"with cte as (
 SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
   FROM [ZKBioAccess].[dbo].[att_transaction] a
-  JOIN [ZKBioAccess].[dbo].[att_transaction] b ON b.id =
+  LEFT JOIN [ZKBioAccess].[dbo].[att_transaction] b ON b.id =
   (
   select TOP 1 id from att_transaction
-  where pers_person_pin = '" + comboBox.Items[x] + "' and att_datetime > '" + next + " 00:00:00' order by att_datetime asc ) where a.pers_person_pin = '" + comboBox.Items[x] + "' and a.att_datetime >= '" + from + " 00:00:00' and a.att_datetime <= '" + next + " 01:30:00') ");
+  where pers_person_pin = '" + comboBox.Items[x] + "' and att_datetime > '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and device_sn = '4879202300009' order by att_datetime asc ) where a.pers_person_pin = '" + comboBox.Items[x] + "' ) ");
                             stringBuilder.Append(@" select row_number() OVER (ORDER BY att_datetime asc) ID, pers_person_pin, att_datetime, device_sn, lead(device_sn) OVER (order by att_datetime) as nextDevice, lag(device_sn) OVER (order by att_datetime) as prevDevice 
     into #MyTemp 
 	from cte;
@@ -84,16 +101,37 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
   select a.pers_person_pin as Code, a.att_datetime as TimeIN, b.att_datetime as TimeOUT
   from #MyTemp2 a,
   #MyTemp2 b where a.device_sn = '4879202300002' and b.device_sn = '4879202300009' and b.ID = (a.ID + 1) and a.pers_person_pin = b.pers_person_pin
-  order by a.att_datetime desc
-
-  drop table #MyTemp
-  drop table #MyTemp2");
-
+and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + next.ToString("yyyy-MM-dd HH:mm:ss") + "' order by a.att_datetime desc drop table #MyTemp drop table #MyTemp2");
                             sqlAtt.sqlDataAdapterFillDatatable(stringBuilder.ToString(), ref dt);
+                            
 
-                            progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Đang lấy dữ liệu từ server ... ");
+                progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
-                        
+
+                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                    }));
+
+                Thread backgroundBreakRemove = new Thread(
+                    new ThreadStart(() =>
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            string deptCode = sqlHR.sqlExecuteScalarString("select Dept from ZlEmployee where Code like '%-%' and CAST(SUBSTRING(Code, CHARINDEX('-', Code) + 1, LEN(Code)) AS int) = " + dt.Rows[i]["Code"].ToString());
+                            string timeIn = sqlSoft.sqlExecuteScalarString("select TimeIn from SmokeReport_BreakTime where DeptCode like '" + deptCode + "'");
+                            string timeOut = sqlSoft.sqlExecuteScalarString("select TimeOut from SmokeReport_BreakTime where DeptCode like '" + deptCode + "'");
+                            DateTime time = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString());
+                            DateTime dIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeIn);
+                            DateTime dOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeOut);
+                            if (deptCode != String.Empty && timeIn != String.Empty && timeOut != String.Empty)
+                            {
+                                if (time >= dIN && time <= dOut)
+                                {
+                                    dt.Rows[i].Delete();
+                                }
+                            }
+                            progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Xóa các dữ liệu trong giờ nghỉ ... ");
+                        }
+                        dt.AcceptChanges();
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }
                 ));
@@ -123,7 +161,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                                 DateTime tIn = Convert.ToDateTime(splitDateIn[0] + " " + timeIn[0] + ":" + timeIn[1] + ":00");
                                 DateTime tOut = Convert.ToDateTime(splitDateOut[0] + " " + timeOut[0] + ":" + timeOut[1] + ":00");
                                 TimeSpan sub = tOut - tIn;
-                                if (splitDateIn[0] == to) //add dieu kien breaktime sau
+                                if (splitDateIn[0] == to.ToString("yyyy-MM-dd")) //add dieu kien breaktime sau
                                 {
                                     smoke.Code = info[0];
                                     smoke.Name = info[1];
@@ -145,6 +183,8 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
 
                 backgroundThreadFetchData.Start();
                 progressDialog.ShowDialog();
+                backgroundBreakRemove.Start();
+                progressDialog.ShowDialog();
                 backgroundThreadReportAdd.Start();
                 progressDialog.ShowDialog();
 
@@ -156,6 +196,9 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
             return employeeSmokings;
         }
         #endregion
+
+
+
 
         #region kitchenReport
         public int GetTotalRangeCount ()

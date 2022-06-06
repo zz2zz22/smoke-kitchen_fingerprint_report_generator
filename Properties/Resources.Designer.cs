@@ -73,9 +73,29 @@ namespace GetSmokingData_Techlink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap close {
+            get {
+                object obj = ResourceManager.GetObject("close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap excel {
             get {
                 object obj = ResourceManager.GetObject("excel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FunIntro2 {
+            get {
+                object obj = ResourceManager.GetObject("FunIntro2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,6 +123,26 @@ namespace GetSmokingData_Techlink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap logoTechlink {
+            get {
+                object obj = ResourceManager.GetObject("logoTechlink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap monkey {
+            get {
+                object obj = ResourceManager.GetObject("monkey", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap smokeCactusE {
             get {
                 object obj = ResourceManager.GetObject("smokeCactusE", resourceCulture);
@@ -123,9 +163,9 @@ namespace GetSmokingData_Techlink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap techlinkFunIntro {
+        public static System.Drawing.Bitmap techlinkIntro {
             get {
-                object obj = ResourceManager.GetObject("techlinkFunIntro", resourceCulture);
+                object obj = ResourceManager.GetObject("techlinkIntro", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +173,19 @@ namespace GetSmokingData_Techlink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap techlinkIntro {
+        public static System.Drawing.Bitmap umaru {
             get {
-                object obj = ResourceManager.GetObject("techlinkIntro", resourceCulture);
+                object obj = ResourceManager.GetObject("umaru", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap z3466999361583_bd67445e00e1efe36ced753cee2aa3e4 {
+            get {
+                object obj = ResourceManager.GetObject("z3466999361583_bd67445e00e1efe36ced753cee2aa3e4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

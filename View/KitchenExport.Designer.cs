@@ -29,65 +29,95 @@ namespace GetSmokingData_Techlink
         /// </summary>
         private void InitializeComponent()
         {
-            this.dtpk_date = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
             this.btn_exportExcel = new XanderUI.XUIButton();
+            this.dtpk_dateIn = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dtpk_dateOut = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // dtpk_date
-            // 
-            this.dtpk_date.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpk_date.CustomFormat = "dd-MM-yyyy";
-            this.dtpk_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpk_date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpk_date.Location = new System.Drawing.Point(151, 81);
-            this.dtpk_date.Name = "dtpk_date";
-            this.dtpk_date.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dtpk_date.Size = new System.Drawing.Size(163, 27);
-            this.dtpk_date.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(70, 84);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 23);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "DATE";
             // 
             // btn_exportExcel
             // 
             this.btn_exportExcel.BackgroundColor = System.Drawing.Color.White;
             this.btn_exportExcel.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.excel;
             this.btn_exportExcel.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
-            this.btn_exportExcel.ButtonText = "EXPORT";
+            this.btn_exportExcel.ButtonText = "";
             this.btn_exportExcel.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
             this.btn_exportExcel.ClickTextColor = System.Drawing.Color.DodgerBlue;
-            this.btn_exportExcel.CornerRadius = 10;
+            this.btn_exportExcel.CornerRadius = 20;
             this.btn_exportExcel.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_exportExcel.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.btn_exportExcel.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.btn_exportExcel.HoverTextColor = System.Drawing.Color.DodgerBlue;
-            this.btn_exportExcel.ImagePosition = XanderUI.XUIButton.imgPosition.Left;
-            this.btn_exportExcel.Location = new System.Drawing.Point(374, 53);
+            this.btn_exportExcel.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
+            this.btn_exportExcel.Location = new System.Drawing.Point(608, 439);
+            this.btn_exportExcel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_exportExcel.Name = "btn_exportExcel";
-            this.btn_exportExcel.Padding = new System.Windows.Forms.Padding(2);
-            this.btn_exportExcel.Size = new System.Drawing.Size(269, 92);
+            this.btn_exportExcel.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_exportExcel.Size = new System.Drawing.Size(119, 92);
             this.btn_exportExcel.TabIndex = 5;
             this.btn_exportExcel.TextColor = System.Drawing.Color.DodgerBlue;
             this.btn_exportExcel.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btn_exportExcel.Click += new System.EventHandler(this.btn_exportExcel_Click);
+            // 
+            // dtpk_dateIn
+            // 
+            this.dtpk_dateIn.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpk_dateIn.CustomFormat = "dd-MM-yyyy HH:mm:ss";
+            this.dtpk_dateIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpk_dateIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpk_dateIn.Location = new System.Drawing.Point(71, 442);
+            this.dtpk_dateIn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpk_dateIn.Name = "dtpk_dateIn";
+            this.dtpk_dateIn.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dtpk_dateIn.Size = new System.Drawing.Size(296, 27);
+            this.dtpk_dateIn.TabIndex = 10;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 510);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(51, 23);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "ĐẾN";
+            // 
+            // dtpk_dateOut
+            // 
+            this.dtpk_dateOut.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpk_dateOut.CustomFormat = "dd-MM-yyyy HH:mm:ss";
+            this.dtpk_dateOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpk_dateOut.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpk_dateOut.Location = new System.Drawing.Point(71, 507);
+            this.dtpk_dateOut.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dtpk_dateOut.Name = "dtpk_dateOut";
+            this.dtpk_dateOut.Size = new System.Drawing.Size(296, 27);
+            this.dtpk_dateOut.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 445);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 23);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "TỪ";
             // 
             // KitchenExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(723, 230);
-            this.Controls.Add(this.btn_exportExcel);
-            this.Controls.Add(this.dtpk_date);
+            this.ClientSize = new System.Drawing.Size(732, 542);
+            this.Controls.Add(this.dtpk_dateIn);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.dtpk_dateOut);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.btn_exportExcel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "KitchenExport";
             this.Text = "KitchenExport";
             this.Load += new System.EventHandler(this.KitchenExport_Load);
@@ -98,7 +128,9 @@ namespace GetSmokingData_Techlink
 
         #endregion
         private XanderUI.XUIButton btn_exportExcel;
-        private System.Windows.Forms.DateTimePicker dtpk_date;
+        private System.Windows.Forms.DateTimePicker dtpk_dateIn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DateTimePicker dtpk_dateOut;
         private System.Windows.Forms.Label label1;
     }
 }

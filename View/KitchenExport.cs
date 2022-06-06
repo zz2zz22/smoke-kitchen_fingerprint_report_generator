@@ -20,15 +20,20 @@ namespace GetSmokingData_Techlink
 
         private void KitchenExport_Load(object sender, EventArgs e)
         {
-            dtpk_date.Value = DateTime.Now.AddDays(-1);
+            dtpk_dateIn.Format = DateTimePickerFormat.Custom;
+            dtpk_dateIn.CustomFormat = "dd-MM-yyyy HH:mm:ss";
+            dtpk_dateIn.Value = DateTime.Today;
+            dtpk_dateOut.Format = DateTimePickerFormat.Custom;
+            dtpk_dateOut.CustomFormat = "dd-MM-yyyy HH:mm:ss";
+            dtpk_dateOut.Value = DateTime.Today.AddDays(1).AddSeconds(-1);
         }
 
         private void btn_exportExcel_Click(object sender, EventArgs e)
         {
             try
             {
-                string dateIn = dtpk_date.Value.ToString("yyyy-MM-dd");
-                string dateNext = (dtpk_date.Value.AddDays(1)).ToString("yyyy-MM-dd");
+                string dateIn = dtpk_dateIn.Value.ToString("yyyy-MM-dd");
+                string dateNext = (dtpk_dateIn.Value.AddDays(1)).ToString("yyyy-MM-dd");
                 System.Windows.Forms.SaveFileDialog saveFileDialog = new SaveFileDialog();
                 string pathsave = "";
                 saveFileDialog.Title = "Browse Excel Files";
@@ -45,7 +50,7 @@ namespace GetSmokingData_Techlink
                     pathsave = saveFileDialog.FileName;
                     saveFileDialog.RestoreDirectory = true;
                     smokingReport.ExportExcelKitchenReport(pathsave, kitchenEmployees);
-                    var resultMessage = MessageBox.Show("Smoking Report export to excel sucessful ! \n\r Do you want to open this file ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    var resultMessage = MessageBox.Show("Lưu file báo cáo thành công! \n\r Bạn có muốn mở file không ? ", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (resultMessage == DialogResult.Yes)
                     {
                         FileInfo fi = new FileInfo(pathsave);

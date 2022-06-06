@@ -117,7 +117,7 @@ namespace GetSmokingData_Techlink
 
                            progressDialog.UpdateProgress(100 * i / kitchenEmployees.Count, "Đang tạo file excel ... ");
                        }
-
+                       xlApp.DisplayAlerts = false;
                        xlWorkBook.SaveAs(pathSave, Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
                              misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
                        xlWorkBook.Close();

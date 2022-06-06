@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label2.Text" xml:space="preserve">
+    <value>1&gt; Xuất các báo cáo chi tiết về giờ ra vào của khu vực hút thuốc hoặc khu vực nhà ăn 
+theo khung giờ ( lọc các giờ trùng và giờ nghỉ )
+2&gt; Chỉnh sửa chi tiết về giờ nghỉ trưa hoặc giờ ăn của các bộ phận (để lọc trong 
+phần mềm ).</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>1&gt; Export detailed reports on the entry and exit times of the smoking area or the cafeteria
+ area by time frame (filter overlapping hours and breaks)
+2&gt; Edit the details of the lunch break or meal time of the departments( In app use only).
+</value>
+  </data>
 </root>

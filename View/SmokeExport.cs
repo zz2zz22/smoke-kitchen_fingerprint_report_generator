@@ -24,46 +24,34 @@ namespace GetSmokingData_Techlink
         {
             try
             {
-                string dateIn = dtpk_dateIn.Value.ToString("yyyy-MM-dd");
-                string dateOut = dtpk_dateOut.Value.ToString("yyyy-MM-dd");
-                string dateNext = (dtpk_dateOut.Value.AddDays(1)).ToString("yyyy-MM-dd");
-                if (dateOut == DateTime.Now.ToString("yyyy-MM-dd") || dtpk_dateOut.Value > DateTime.Now || dateIn == DateTime.Now.ToString("yyyy-MM-dd") || dtpk_dateIn.Value > DateTime.Now)
-                {
-                    MessageBox.Show("Hãy chọn lại ngày!");
-                    dtpk_dateIn.Value = DateTime.Now.AddDays(-1);
-                    dtpk_dateOut.Value = DateTime.Now.AddDays(-1);
-                }
-                else
-                {
-                    System.Windows.Forms.SaveFileDialog saveFileDialog = new SaveFileDialog();
-                    string pathsave = "";
-                    saveFileDialog.Title = "Browse Excel Files";
-                    saveFileDialog.DefaultExt = "Excel";
-                    saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
-                    saveFileDialog.CheckPathExists = true;
+                System.Windows.Forms.SaveFileDialog saveFileDialog = new SaveFileDialog();
+                string pathsave = "";
+                saveFileDialog.Title = "Browse Excel Files";
+                saveFileDialog.DefaultExt = "Excel";
+                saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveFileDialog.CheckPathExists = true;
 
-                    if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    { 
-                        GetDataLogic getDataLogic = new GetDataLogic();
-                        List<EmployeeSmoking> employeeSmokings = getDataLogic.GetSmokingData(dateNext, dateIn, dateOut);
+                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    GetDataLogic getDataLogic = new GetDataLogic();
+                    List<EmployeeSmoking> employeeSmokings = getDataLogic.GetSmokingData(dtpk_dateIn.Value, dtpk_dateOut.Value);
 
-                        SmokingReport smokingReport = new SmokingReport();
-                        pathsave = saveFileDialog.FileName;
-                        saveFileDialog.RestoreDirectory = true;
-                        smokingReport.ExportExcelSmokingReport(pathsave, employeeSmokings);
-                        var resultMessage = MessageBox.Show("Smoking Report export to excel sucessful ! \n\r Do you want to open this file ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                        if (resultMessage == DialogResult.Yes)
+                    SmokingReport smokingReport = new SmokingReport();
+                    pathsave = saveFileDialog.FileName;
+                    saveFileDialog.RestoreDirectory = true;
+                    smokingReport.ExportExcelSmokingReport(pathsave, employeeSmokings);
+                    var resultMessage = MessageBox.Show("Lưu file báo cáo thành công ! \n\r Bạn có muốn mở file không ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (resultMessage == DialogResult.Yes)
+                    {
+
+                        FileInfo fi = new FileInfo(pathsave);
+                        if (fi.Exists)
                         {
-
-                            FileInfo fi = new FileInfo(pathsave);
-                            if (fi.Exists)
-                            {
-                                System.Diagnostics.Process.Start(pathsave);
-                            }
-                            else
-                            {
-                                MessageBox.Show("File doestn't exist !", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
+                            System.Diagnostics.Process.Start(pathsave);
+                        }
+                        else
+                        {
+                            MessageBox.Show("File không tồn tại !", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                 }
@@ -77,8 +65,13 @@ namespace GetSmokingData_Techlink
 
         private void SmokeExport_Load(object sender, EventArgs e)
         {
-            dtpk_dateIn.Value = DateTime.Now.AddDays(-1);
-            dtpk_dateOut.Value = DateTime.Now.AddDays(-1);
+            dtpk_dateIn.Format = DateTimePickerFormat.Custom;
+            dtpk_dateIn.CustomFormat = "dd-MM-yyyy HH:mm:ss";
+            dtpk_dateIn.Value = DateTime.Today.AddDays(-1);
+            dtpk_dateOut.Format = DateTimePickerFormat.Custom;
+            dtpk_dateOut.CustomFormat = "dd-MM-yyyy HH:mm:ss";
+            dtpk_dateOut.Value = DateTime.Today.AddSeconds(-1);
         }
+
     }
 }

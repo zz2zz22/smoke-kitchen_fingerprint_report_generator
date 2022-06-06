@@ -28,6 +28,7 @@ namespace GetSmokingData_Techlink
             xuiWidgetPanel1.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
+            
         }
         private void xuibtn_smoke_Click(object sender, EventArgs e)
         {
@@ -39,6 +40,19 @@ namespace GetSmokingData_Techlink
             openChildForm(new KitchenExport());
         }
 
-        
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            openChildForm(new HomeWindow());
+        }
+
+        private void xuiButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            openChildForm(new HomeWindow());
+        }
     }
 }

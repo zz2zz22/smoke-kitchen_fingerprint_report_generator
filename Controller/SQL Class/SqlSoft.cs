@@ -26,8 +26,6 @@ namespace GetSmokingData_Techlink
             }
             catch (Exception)
             {
-
-                //   MessageBox.Show(ex.Message, "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return String.Empty;
             }
 
