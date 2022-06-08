@@ -48,7 +48,13 @@ namespace GetSmokingData_Techlink
         private void xuibtn_closeProgram_Click(object sender, EventArgs e)
         {
             this.Close();
+            this.Dispose();
         }
 
+        private void xuibtn_setting_Click(object sender, EventArgs e)
+        {
+            BreakSetting breakSetting = new BreakSetting();
+            breakSetting.ShowDialog();
+        }
     }
 }

@@ -25,15 +25,13 @@ namespace GetSmokingData_Techlink
             dtpk_dateIn.Value = DateTime.Today;
             dtpk_dateOut.Format = DateTimePickerFormat.Custom;
             dtpk_dateOut.CustomFormat = "dd-MM-yyyy HH:mm:ss";
-            dtpk_dateOut.Value = DateTime.Today.AddDays(1);
+            dtpk_dateOut.Value = DateTime.Today;
         }
 
         private void btn_exportExcel_Click(object sender, EventArgs e)
         {
             try
             {
-                string dateIn = dtpk_dateIn.Value.ToString("yyyy-MM-dd");
-                string dateNext = (dtpk_dateIn.Value.AddDays(1)).ToString("yyyy-MM-dd");
                 System.Windows.Forms.SaveFileDialog saveFileDialog = new SaveFileDialog();
                 string pathsave = "";
                 saveFileDialog.Title = "Browse Excel Files";
@@ -44,7 +42,7 @@ namespace GetSmokingData_Techlink
                 if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     GetDataLogic getDataLogic = new GetDataLogic();
-                    List<KitchenEmployee> kitchenEmployees = getDataLogic.GetKitchenData(dateIn, dateNext);
+                    List<KitchenEmployee> kitchenEmployees = getDataLogic.GetKitchenData(dtpk_dateIn.Value, dtpk_dateOut.Value);
 
                     SmokingReport smokingReport = new SmokingReport();
                     pathsave = saveFileDialog.FileName;

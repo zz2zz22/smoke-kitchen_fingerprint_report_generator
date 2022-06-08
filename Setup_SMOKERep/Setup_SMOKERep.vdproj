@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7C20024D25D243C98112BB714F70E471"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9FA1CCB83057C6C7991B45B71CC672F6"
         "OwnerKey" = "8:_AF63C8F002494519806FCE9E70B15C6F"
         "MsmSig" = "8:_UNDEFINED"
@@ -45,18 +51,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_E022CEBA1D4443A4AE62B243AA2105B3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9FA1CCB83057C6C7991B45B71CC672F6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_AF63C8F002494519806FCE9E70B15C6F"
         "MsmSig" = "8:_UNDEFINED"
@@ -65,6 +59,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_301149E55866380F9014AB3C2365A94E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9FA1CCB83057C6C7991B45B71CC672F6"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -85,6 +85,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -101,6 +117,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -181,6 +205,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7C20024D25D243C98112BB714F70E471"
+            {
+            "SourcePath" = "8:C:\\Users\\Anh Vu\\Downloads\\app.ico"
+            "TargetName" = "8:app.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_24851089C4FE4A949BFC50FA1B042CC0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9FA1CCB83057C6C7991B45B71CC672F6"
             {
             "AssemblyRegister" = "3:1"
@@ -223,26 +267,6 @@
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
             "Hidden" = "11:TRUE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E022CEBA1D4443A4AE62B243AA2105B3"
-            {
-            "SourcePath" = "8:C:\\Users\\Anh Vu\\Downloads\\app.ico"
-            "TargetName" = "8:app.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_24851089C4FE4A949BFC50FA1B042CC0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
@@ -320,7 +344,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup_SMOKERep"
         "ProductCode" = "8:{3911B6E5-F4CA-4CEA-8F0C-0D9F3EBD40D0}"
-        "PackageCode" = "8:{0A6A7822-23BB-4040-B2F2-3496FDD0CE24}"
+        "PackageCode" = "8:{04F23A41-053F-4ACD-8794-53DE5F92FB36}"
         "UpgradeCode" = "8:{AB002AD5-2E81-4E4C-9DAC-523AF40C2B7F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -337,7 +361,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_7C20024D25D243C98112BB714F70E471"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -440,9 +464,9 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_62DED45D45784DA391FD906B3C1FE798"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_299D9095E5594035BB68EF7B9F0983EF"
             {
-            "Name" = "8:Smoke Report Generate"
+            "Name" = "8:Smoke and Kitchen Report"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -451,7 +475,7 @@
             "Target" = "8:_AF63C8F002494519806FCE9E70B15C6F"
             "Folder" = "8:_03FB8D3A5B59473FA9DB17768128BC4F"
             "WorkingFolder" = "8:_24851089C4FE4A949BFC50FA1B042CC0"
-            "Icon" = "8:_E022CEBA1D4443A4AE62B243AA2105B3"
+            "Icon" = "8:_7C20024D25D243C98112BB714F70E471"
             "Feature" = "8:"
             }
         }
