@@ -68,5 +68,46 @@ namespace GetSmokingData_Techlink
             }
            
         }
+
+        private void xuiButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.SaveFileDialog saveFileDialog = new SaveFileDialog();
+                string pathsave = "";
+                saveFileDialog.Title = "Browse Excel Files";
+                saveFileDialog.DefaultExt = "Excel";
+                saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveFileDialog.CheckPathExists = true;
+
+                if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    GetDataLogic getDataLogic = new GetDataLogic();
+                    List<KitchenEmployee> kitchenEmployees = getDataLogic.GetKitchenDataWrong(dtpk_dateIn.Value, dtpk_dateOut.Value);
+
+                    SmokingReport smokingReport = new SmokingReport();
+                    pathsave = saveFileDialog.FileName;
+                    saveFileDialog.RestoreDirectory = true;
+                    smokingReport.ExportExcelKitchenReport(pathsave, kitchenEmployees);
+                    var resultMessage = MessageBox.Show("Lưu file báo cáo thành công! \n\r Bạn có muốn mở file không ? ", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if (resultMessage == DialogResult.Yes)
+                    {
+                        FileInfo fi = new FileInfo(pathsave);
+                        if (fi.Exists)
+                        {
+                            System.Diagnostics.Process.Start(pathsave);
+                        }
+                        else
+                        {
+                            MessageBox.Show("File doestn't exist !", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -247,6 +247,7 @@
     <EmbeddedResource Include="Resources\KitchenReportForm.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Resources\KitchenReportForm_WrongTime.xlsx" />
     <None Include="Resources\smokeCactusE.png" />
   </ItemGroup>
   <ItemGroup>

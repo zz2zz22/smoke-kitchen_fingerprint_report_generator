@@ -35,6 +35,7 @@ namespace GetSmokingData_Techlink
             this.dtpk_dateOut = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.xuiButton1 = new XanderUI.XUIButton();
             this.SuspendLayout();
             // 
             // btn_exportExcel
@@ -51,7 +52,7 @@ namespace GetSmokingData_Techlink
             this.btn_exportExcel.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.btn_exportExcel.HoverTextColor = System.Drawing.Color.DodgerBlue;
             this.btn_exportExcel.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
-            this.btn_exportExcel.Location = new System.Drawing.Point(168, 227);
+            this.btn_exportExcel.Location = new System.Drawing.Point(56, 211);
             this.btn_exportExcel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_exportExcel.Name = "btn_exportExcel";
             this.btn_exportExcel.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -117,12 +118,38 @@ namespace GetSmokingData_Techlink
             this.label3.TabIndex = 14;
             this.label3.Text = "Xuất dữ liệu nhà ăn";
             // 
+            // xuiButton1
+            // 
+            this.xuiButton1.BackgroundColor = System.Drawing.Color.White;
+            this.xuiButton1.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.excel;
+            this.xuiButton1.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
+            this.xuiButton1.ButtonText = "XUẤT GIỜ SAI";
+            this.xuiButton1.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.xuiButton1.ClickTextColor = System.Drawing.Color.DodgerBlue;
+            this.xuiButton1.CornerRadius = 20;
+            this.xuiButton1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xuiButton1.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuiButton1.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.xuiButton1.HoverTextColor = System.Drawing.Color.DodgerBlue;
+            this.xuiButton1.ImagePosition = XanderUI.XUIButton.imgPosition.Left;
+            this.xuiButton1.Location = new System.Drawing.Point(226, 211);
+            this.xuiButton1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xuiButton1.Name = "xuiButton1";
+            this.xuiButton1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xuiButton1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.xuiButton1.Size = new System.Drawing.Size(205, 92);
+            this.xuiButton1.TabIndex = 15;
+            this.xuiButton1.TextColor = System.Drawing.Color.DodgerBlue;
+            this.xuiButton1.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuiButton1.Click += new System.EventHandler(this.xuiButton1_Click);
+            // 
             // KitchenExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(469, 355);
+            this.Controls.Add(this.xuiButton1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dtpk_dateIn);
             this.Controls.Add(this.label2);
@@ -146,5 +173,6 @@ namespace GetSmokingData_Techlink
         private System.Windows.Forms.DateTimePicker dtpk_dateOut;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
+        private XanderUI.XUIButton xuiButton1;
     }
 }

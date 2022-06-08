@@ -103,7 +103,7 @@ namespace GetSmokingData_Techlink
                 Thread backgroundThreadKitchenExcel = new Thread(
                    new ThreadStart(() =>
                    {
-                       xlWorkSheet.Cells[4, "A"] = "KITCHEN REPORT"; // Thêm ngày vào title
+                       //xlWorkSheet.Cells[4, "A"] = "KITCHEN REPORT"; // Thêm ngày vào title
                        for (int i = 0; i < kitchenEmployees.Count; i++)
                        {
                            xlWorkSheet.Cells[7 + i, "A"] = (i + 1).ToString();

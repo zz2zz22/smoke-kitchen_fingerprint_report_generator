@@ -10,6 +10,7 @@ namespace GetSmokingData_Techlink
     {
         public string PathSmokingReport = Environment.CurrentDirectory + @"\Resources\SmokingReportForm.xlsx";
         public string PathKitchenReport = Environment.CurrentDirectory + @"\Resources\KitchenReportForm.xlsx";
+        public string PathKitchenReportWrong = Environment.CurrentDirectory + @"\Resources\KitchenReportForm_WrongTime.xlsx";
 
         public void ExportExcelSmokingReport(string PathSave, List<EmployeeSmoking> employeeSmoking)
         {
@@ -20,6 +21,11 @@ namespace GetSmokingData_Techlink
         {
             ToolSupport toolSupport = new ToolSupport();
             toolSupport.ExportKitchen(kitchenEmployees, PathSave, PathKitchenReport);
+        }
+        public void ExportExcelKitchenReportWrong(string PathSave, List<KitchenEmployee> kitchenEmployeesWrong)
+        {
+            ToolSupport toolSupport = new ToolSupport();
+            toolSupport.ExportKitchen(kitchenEmployeesWrong, PathSave, PathKitchenReportWrong);
         }
     }
 }
