@@ -16,6 +16,11 @@ namespace GetSmokingData_Techlink
         public static String DeptName { get; set; }
         public static String TempID { get; set; }
 
+        public static String TempBreakID1 { get; set; }
+        public static String TempBreakID2 { get; set; }
+        public static String TempBreakID3 { get; set; }
+        public static String TempBreakID4 { get; set; }
+
         public static void ResetVariables()
         {
             TimeIn = null;
@@ -28,6 +33,13 @@ namespace GetSmokingData_Techlink
         {
             Dept = null;
             DeptName = null;
+        }
+        public static void ResetTempValue()
+        {
+            TempBreakID1 = null;
+            TempBreakID2 = null;
+            TempBreakID3 = null;
+            TempBreakID4 = null;
         }
     }
 }

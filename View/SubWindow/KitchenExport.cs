@@ -26,6 +26,13 @@ namespace GetSmokingData_Techlink
             dtpk_dateOut.Format = DateTimePickerFormat.Custom;
             dtpk_dateOut.CustomFormat = "dd-MM-yyyy HH:mm:ss";
             dtpk_dateOut.Value = DateTime.Today;
+            if (Properties.Settings.Default.isAddFilter == false)
+            {
+                radbtn_getAll.Checked = true;
+            }else
+            {
+                radbtn_getCorrectData.Checked = true;
+            }
         }
 
         private void btn_exportExcel_Click(object sender, EventArgs e)
@@ -88,7 +95,7 @@ namespace GetSmokingData_Techlink
                     SmokingReport smokingReport = new SmokingReport();
                     pathsave = saveFileDialog.FileName;
                     saveFileDialog.RestoreDirectory = true;
-                    smokingReport.ExportExcelKitchenReport(pathsave, kitchenEmployees);
+                    smokingReport.ExportExcelKitchenReportWrong(pathsave, kitchenEmployees);
                     var resultMessage = MessageBox.Show("Lưu file báo cáo thành công! \n\r Bạn có muốn mở file không ? ", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (resultMessage == DialogResult.Yes)
                     {
@@ -108,6 +115,18 @@ namespace GetSmokingData_Techlink
             {
                 throw;
             }
+        }
+
+        private void radbtn_getAll_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.isAddFilter = false;
+            Properties.Settings.Default.Save();
+        }
+
+        private void radbtn_getCorrectData_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.isAddFilter = true;
+            Properties.Settings.Default.Save();
         }
     }
 }

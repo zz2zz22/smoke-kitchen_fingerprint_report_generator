@@ -17,19 +17,17 @@ namespace GetSmokingData_Techlink
         {
             SqlHR sqlHR = new SqlHR();
             StringBuilder sqlGetDataEmp = new StringBuilder();
-            sqlGetDataEmp.Append("select e.Code + ';' + e.Name + ';' + d.Code + ';' + d2.Code ");
-            sqlGetDataEmp.Append("from ZlEmployee as e, ");
-            sqlGetDataEmp.Append("ZlDept as d, ");
-            sqlGetDataEmp.Append("ZlDept as d2 ");
-            sqlGetDataEmp.Append("where e.Code like '%-%' and CAST(SUBSTRING(e.Code, CHARINDEX('-', e.Code) + 1, LEN(e.Code)) AS int) = " + code + " ");
-            sqlGetDataEmp.Append("and e.Dept = d.Code and  d2.Code = SUBSTRING(e.Dept, 1, 3)");
+            sqlGetDataEmp.Append(@"select e.Code + ';' + e.Name + ';' + d.Code + ';' + d.UpCode 
+ from ZlEmployee as e, ZlDept as d 
+ where e.Code like '%-%' and CAST(SUBSTRING(e.Code, CHARINDEX('-', e.Code) + 1, LEN(e.Code)) AS int) = '" + code + "' and e.Dept = d.Code ");
+            
             string data = sqlHR.sqlExecuteScalarString(sqlGetDataEmp.ToString());
             if (data != String.Empty)
             {
                 string[] temp = data.Split(';');
                 if (temp[3] == "999")
                 {
-                    string tempDept = sqlHR.sqlExecuteScalarString("select Memo from ZlEmployee where Code like '"+temp[0]+"'");
+                    string tempDept = sqlHR.sqlExecuteScalarString("select Memo from ZlEmployee where Code like '" + temp[0] + "'");
                     string replacement = Regex.Replace(tempDept, @"\t|\n|\r", "");
                     string deptCode = sqlHR.sqlExecuteScalarString("select Code from ZlDept where LongName like '%" + replacement + "%'");
                     if (deptCode != String.Empty)
@@ -42,23 +40,21 @@ namespace GetSmokingData_Techlink
             }
             return data;
         }
+
         public string GetDeptDataFromCodeInt(string code, string bigCode)
         {
-            SqlSoft sqlSoft = new SqlSoft();
+            SqlHR sqlHR = new SqlHR();
             StringBuilder sqlGetDataDept = new StringBuilder();
-            sqlGetDataDept.Append(@"select a.NameVN + ';' + b.NameVN
-  from SmokeReport_Department as a,
-  SmokeReport_Department as b
-  where a.[09txCode] = '" + code + "' and b.[09txCode] = '" + bigCode + "' ");
-            string data = sqlSoft.sqlExecuteScalarString(sqlGetDataDept.ToString());
+            sqlGetDataDept.Append(@"select a.Note + ';' + b.Note from ZlDept as a, ZlDept as b where a.Code = '" + code + "' and b.Code = '" + bigCode + "'");
+            string data = sqlHR.sqlExecuteScalarString(sqlGetDataDept.ToString());
             return data;
-        }
+        } // Chỉnh sửa lại logic lấy tù txcard
 
         public string GetDeptDataFromCodeIntFail(string code, string bigCode)
         {
             SqlHR sqlSoft = new SqlHR();
             StringBuilder sqlGetDataDept = new StringBuilder();
-            sqlGetDataDept.Append(@"select a.DeptDesc + ';' + b.DeptDesc
+            sqlGetDataDept.Append(@"select a.Note + ';' + b.Note
   from ZlDept as a,
   ZlDept as b
   where a.Code = '" + code + "' and b.Code = '" + bigCode + "' ");
@@ -137,7 +133,7 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                             if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000)
                             {
                                 string[] deptCode = GetEmpDataFromCodeInt(dt.Rows[i]["Code"].ToString()).Split(';');
-                                string breaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from SmokeReport_DepartmentBreakTime where DeptID = '" + deptCode[2] + "'");
+                                string breaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + deptCode[2] + "'");
                                 if (breaksTime != String.Empty)
                                 {
                                     string[] breakIDs = breaksTime.Split(';');
@@ -193,6 +189,7 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                                 {
                                     deptInfo = GetDeptDataFromCodeIntFail(info[2], info[3]).Split(';');
                                 }
+                                
                                 smoke.Code = info[0];
                                 smoke.Name = info[1];
                                 smoke.BigDept = deptInfo[1];
@@ -230,8 +227,6 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
         #endregion
 
 
-
-
         #region kitchenReport
         public List<KitchenEmployee> GetKitchenData(DateTime dateIn, DateTime dateOut)
         {
@@ -251,7 +246,16 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                 dtColumn.DataType = Type.GetType("System.DateTime");
                 dtColumn.ColumnName = "inTime";
                 sumEmp.Columns.Add(dtColumn);
-
+                DataTable temp2 = new DataTable();
+                DataColumn dtColumnTemp;
+                dtColumnTemp = new DataColumn();
+                dtColumnTemp.DataType = Type.GetType("System.String");
+                dtColumnTemp.ColumnName = "Code";
+                temp2.Columns.Add(dtColumnTemp);
+                dtColumnTemp = new DataColumn();
+                dtColumnTemp.DataType = Type.GetType("System.DateTime");
+                dtColumnTemp.ColumnName = "inTime";
+                temp2.Columns.Add(dtColumnTemp);
 
                 ComboBox cbxEmp = new ComboBox();
                 sqlAtt.getComboBoxData("select distinct pin from acc_transaction where LEN(pin) > 0 and UPPER(area_name) like 'KITCHEN' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ", ref cbxEmp);
@@ -263,23 +267,14 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                         for (int i = 0; i < cbxEmp.Items.Count; i ++)
                         {
                             DataTable temp = new DataTable();
-                            DataTable temp2 = new DataTable();
-                            DataColumn dtColumnTemp;
-                            dtColumnTemp = new DataColumn();
-                            dtColumnTemp.DataType = Type.GetType("System.String");
-                            dtColumnTemp.ColumnName = "Code";
-                            temp2.Columns.Add(dtColumnTemp);
-                            dtColumnTemp = new DataColumn();
-                            dtColumnTemp.DataType = Type.GetType("System.DateTime");
-                            dtColumnTemp.ColumnName = "inTime";
-                            temp2.Columns.Add(dtColumnTemp);
                             StringBuilder getDataKitchenonEmpID = new StringBuilder();
                             getDataKitchenonEmpID.Append(@"select pin as Code, event_time as inTime 
 from acc_transaction where UPPER(area_name) like 'KITCHEN'
 and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
                             sqlAtt.sqlDataAdapterFillDatatable(getDataKitchenonEmpID.ToString(), ref temp);
                             int reRow = 0;
-                            
+                            temp.DefaultView.Sort = "inTime";
+                            temp = temp.DefaultView.ToTable();
                             for (int j = 0; j < temp.Rows.Count; j ++)
                             {
                                 if (temp.Rows.Count > 1)
@@ -330,16 +325,89 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                                     }
                                 }
                             }
-                            for (int a = 0; a < temp2.Rows.Count; a++)
+                            progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
+                        }
+                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                    }));
+
+                Thread backgroundThreadDataFilter = new Thread(
+                new ThreadStart(() =>
+                {
+                    for (int a = 0; a < temp2.Rows.Count; a++)
+                    {
+                        if (Convert.ToInt32(temp2.Rows[a]["Code"].ToString()) < 30000)
+                        {
+                            string[] tempDeptcode = GetEmpDataFromCodeInt(temp2.Rows[a]["Code"].ToString()).Split(';');
+                            if (tempDeptcode.Length > 1)
                             {
-                                if (Convert.ToInt32(temp2.Rows[a]["Code"].ToString()) < 30000)
+                                string deptBreaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + tempDeptcode[2] + "'");
+                                if (deptBreaksTime != String.Empty)
                                 {
-                                    string[] tempDeptcode = GetEmpDataFromCodeInt(temp2.Rows[a]["Code"].ToString()).Split(';');
-                                    string deptBreaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from SmokeReport_DepartmentBreakTime where DeptID = '" + tempDeptcode[2] + "'");
-                                    if (deptBreaksTime != String.Empty)
+                                    string[] breakDeptIDs = deptBreaksTime.Split(';');
+                                    DateTime timeKitchen = Convert.ToDateTime(temp2.Rows[a]["inTime"].ToString());
+                                    bool checkBetween = false;
+                                    for (int j = 0; j < breakDeptIDs.Count(); j++)
                                     {
-                                        string[] breakDeptIDs = deptBreaksTime.Split(';');
-                                        DateTime timeKitchen = Convert.ToDateTime(temp2.Rows[a]["inTime"].ToString());
+                                        string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
+                                        string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
+
+                                        DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                        DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                        if (timeIn != String.Empty && timeOut != String.Empty)
+                                        {
+                                            if (timeKitchen >= dIN && timeKitchen <= dOut)
+                                            {
+                                                checkBetween = true;
+                                            }
+                                        }
+                                    }
+                                    if (checkBetween == false)
+                                        temp2.Rows[a].Delete();
+                                }
+                            }
+                            
+                        }
+                        progressDialog.UpdateProgress(100 * a / temp2.Rows.Count, "Thêm dữ liệu vào file excel ... ");
+                    }
+                    progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                    temp2.AcceptChanges();
+                }));
+
+                Thread backgroundThreadKitchenReportAdd = new Thread(
+                    new ThreadStart(() =>
+                    {
+                        sumEmp.Merge(temp2);
+                        sumEmp.DefaultView.Sort = "inTime";
+                        sumEmp = sumEmp.DefaultView.ToTable();
+                        for (int i = 0; i < sumEmp.Rows.Count; i++)
+                        {
+                            if (Convert.ToInt32(sumEmp.Rows[i]["Code"].ToString()) < 30000)
+                            {
+                                KitchenEmployee kitchen = new KitchenEmployee();
+                                string[] info = GetEmpDataFromCodeInt(sumEmp.Rows[i]["Code"].ToString()).Split(';');
+                                if (info.Length > 1)
+                                {
+                                    string[] deptInfo = GetDeptDataFromCodeInt(info[2], info[3]).Split(';');
+
+                                    string tempIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                                    string[] splitDateIn = tempIn.Split(' ');
+
+                                    if (deptInfo.Length < 2)
+                                    {
+                                        deptInfo = GetDeptDataFromCodeIntFail(info[2], info[3]).Split(';');
+                                    }
+                                    int breakType = 0;
+                                    kitchen.Code = info[0];
+                                    kitchen.Name = info[1];
+                                    kitchen.BigDept = deptInfo[1];
+                                    kitchen.Dept = deptInfo[0];
+                                    kitchen.sIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("HH:mm");
+                                    string deptBreaks = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + info[2] + "'");
+                                    if (deptBreaks != String.Empty)
+                                    {
+                                        string[] breakDeptIDs = deptBreaks.Split(';');
+                                        DateTime timeKitchen = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString());
+
                                         for (int j = 0; j < breakDeptIDs.Count(); j++)
                                         {
                                             string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
@@ -349,51 +417,17 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                                             DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
                                             if (timeIn != String.Empty && timeOut != String.Empty)
                                             {
-                                                if (timeKitchen < dIN && timeKitchen > dOut)
+                                                if (timeKitchen >= dIN && timeKitchen <= dOut)
                                                 {
-                                                    temp2.Rows[a].Delete();
+                                                    breakType = int.Parse(sqlSoft.sqlExecuteScalarString("select distinct Type from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'"));
                                                 }
                                             }
                                         }
                                     }
+                                    kitchen.Date = splitDateIn[0];
+                                    kitchen.type = breakType;
+                                    kitchenEmployees.Add(kitchen);
                                 }
-                            }
-                            temp2.AcceptChanges();
-                            sumEmp.Merge(temp2);
-                            
-                            progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
-                        }
-                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
-                    }));
-
-                Thread backgroundThreadKitchenReportAdd = new Thread(
-                    new ThreadStart(() =>
-                    {
-                        sumEmp.DefaultView.Sort = "inTime";
-                        sumEmp = sumEmp.DefaultView.ToTable();
-                        for (int i = 0; i < sumEmp.Rows.Count; i++)
-                        {
-                            if (Convert.ToInt32(sumEmp.Rows[i]["Code"].ToString()) < 30000)
-                            {
-                                KitchenEmployee kitchen = new KitchenEmployee();
-                                string[] info = GetEmpDataFromCodeInt(sumEmp.Rows[i]["Code"].ToString()).Split(';');
-                                string[] deptInfo = GetDeptDataFromCodeInt(info[2], info[3]).Split(';');
-                               
-                                string tempIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-                                string[] splitDateIn = tempIn.Split(' ');
-
-                                if (deptInfo.Length < 2)
-                                {
-                                    deptInfo = GetDeptDataFromCodeIntFail(info[2], info[3]).Split(';');
-                                }
-                                kitchen.Code = info[0];
-                                kitchen.Name = info[1];
-                                kitchen.BigDept = deptInfo[1];
-                                kitchen.Dept = deptInfo[0];
-                                kitchen.sIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("HH:mm");
-                                kitchen.Date = splitDateIn[0];
-
-                                kitchenEmployees.Add(kitchen);
                             }
                             progressDialog.UpdateProgress(100 * i / sumEmp.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
@@ -403,6 +437,11 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
 
                 backgroundThreadFetchKitchenData.Start();
                 progressDialog.ShowDialog();
+                if (Properties.Settings.Default.isAddFilter == true)
+                {
+                    backgroundThreadDataFilter.Start();
+                    progressDialog.ShowDialog();
+                }
                 backgroundThreadKitchenReportAdd.Start();
                 progressDialog.ShowDialog();
                 return kitchenEmployees;
@@ -431,7 +470,16 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                 dtColumn.DataType = Type.GetType("System.DateTime");
                 dtColumn.ColumnName = "inTime";
                 sumEmp.Columns.Add(dtColumn);
-
+                DataTable temp2 = new DataTable();
+                DataColumn dtColumnTemp;
+                dtColumnTemp = new DataColumn();
+                dtColumnTemp.DataType = Type.GetType("System.String");
+                dtColumnTemp.ColumnName = "Code";
+                temp2.Columns.Add(dtColumnTemp);
+                dtColumnTemp = new DataColumn();
+                dtColumnTemp.DataType = Type.GetType("System.DateTime");
+                dtColumnTemp.ColumnName = "inTime";
+                temp2.Columns.Add(dtColumnTemp);
 
                 ComboBox cbxEmp = new ComboBox();
                 sqlAtt.getComboBoxData("select distinct pin from acc_transaction where LEN(pin) > 0 and UPPER(area_name) like 'KITCHEN' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ", ref cbxEmp);
@@ -443,16 +491,7 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                         for (int i = 0; i < cbxEmp.Items.Count; i++)
                         {
                             DataTable temp = new DataTable();
-                            DataTable temp2 = new DataTable();
-                            DataColumn dtColumnTemp;
-                            dtColumnTemp = new DataColumn();
-                            dtColumnTemp.DataType = Type.GetType("System.String");
-                            dtColumnTemp.ColumnName = "Code";
-                            temp2.Columns.Add(dtColumnTemp);
-                            dtColumnTemp = new DataColumn();
-                            dtColumnTemp.DataType = Type.GetType("System.DateTime");
-                            dtColumnTemp.ColumnName = "inTime";
-                            temp2.Columns.Add(dtColumnTemp);
+                            
                             StringBuilder getDataKitchenonEmpID = new StringBuilder();
                             getDataKitchenonEmpID.Append(@"select pin as Code, event_time as inTime 
 from acc_transaction where UPPER(area_name) like 'KITCHEN'
@@ -510,16 +549,27 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                                     }
                                 }
                             }
-                            for (int a = 0; a < temp2.Rows.Count; a++)
+
+                            progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
+                        }
+                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                    }));
+                Thread backgroundThreadKitchenGetWrongData = new Thread(
+                    new ThreadStart(() =>
+                    {
+                        for (int a = 0; a < temp2.Rows.Count; a++)
+                        {
+                            if (Convert.ToInt32(temp2.Rows[a]["Code"].ToString()) < 30000)
                             {
-                                if (Convert.ToInt32(temp2.Rows[a]["Code"].ToString()) < 30000)
+                                string[] tempDeptcode = GetEmpDataFromCodeInt(temp2.Rows[a]["Code"].ToString()).Split(';');
+                                if (tempDeptcode.Length > 1)
                                 {
-                                    string[] tempDeptcode = GetEmpDataFromCodeInt(temp2.Rows[a]["Code"].ToString()).Split(';');
-                                    string deptBreaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from SmokeReport_DepartmentBreakTime where DeptID = '" + tempDeptcode[2] + "'");
+                                    string deptBreaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + tempDeptcode[2] + "'");
                                     if (deptBreaksTime != String.Empty)
                                     {
                                         string[] breakDeptIDs = deptBreaksTime.Split(';');
                                         DateTime timeKitchen = Convert.ToDateTime(temp2.Rows[a]["inTime"].ToString());
+                                        bool checkBetween = false;
                                         for (int j = 0; j < breakDeptIDs.Count(); j++)
                                         {
                                             string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
@@ -531,21 +581,24 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                                             {
                                                 if (timeKitchen >= dIN && timeKitchen <= dOut)
                                                 {
-                                                    temp2.Rows[a].Delete();
+                                                    checkBetween = true;
                                                 }
                                             }
                                         }
+                                        if (checkBetween == true)
+                                        {
+                                            temp2.Rows[a].Delete();
+                                        }
                                     }
                                 }
-                            }
-                            temp2.AcceptChanges();
-                            sumEmp.Merge(temp2);
 
-                            progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
+                            }
+                            progressDialog.UpdateProgress(100 * a / temp2.Rows.Count, "Lọc dữ liệu nhân viên đi sai giờ ... ");
                         }
+                        temp2.AcceptChanges();
+                        sumEmp.Merge(temp2);
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }));
-
                 Thread backgroundThreadKitchenReportAdd = new Thread(
                     new ThreadStart(() =>
                     {
@@ -557,21 +610,24 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                             {
                                 KitchenEmployee kitchen = new KitchenEmployee();
                                 string[] info = GetEmpDataFromCodeInt(sumEmp.Rows[i]["Code"].ToString()).Split(';');
-                                string[] deptInfo = GetDeptDataFromCodeInt(info[2], info[3]).Split(';');
-                                string tempIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-                                string[] splitDateIn = tempIn.Split(' ');
-                                if (deptInfo.Length < 2)
+                                if (info.Length > 1)
                                 {
-                                    deptInfo = GetDeptDataFromCodeIntFail(info[2], info[3]).Split(';');
-                                }
-                                kitchen.Code = info[0];
-                                kitchen.Name = info[1];
-                                kitchen.BigDept = deptInfo[1];
-                                kitchen.Dept = deptInfo[0];
-                                kitchen.sIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("HH:mm");
-                                kitchen.Date = splitDateIn[0];
+                                    string[] deptInfo = GetDeptDataFromCodeInt(info[2], info[3]).Split(';');
+                                    string tempIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                                    string[] splitDateIn = tempIn.Split(' ');
+                                    if (deptInfo.Length < 2)
+                                    {
+                                        deptInfo = GetDeptDataFromCodeIntFail(info[2], info[3]).Split(';');
+                                    }
+                                    kitchen.Code = info[0];
+                                    kitchen.Name = info[1];
+                                    kitchen.BigDept = deptInfo[1];
+                                    kitchen.Dept = deptInfo[0];
+                                    kitchen.sIn = Convert.ToDateTime(sumEmp.Rows[i]["inTime"].ToString()).ToString("HH:mm");
+                                    kitchen.Date = splitDateIn[0];
 
-                                kitchenEmployees.Add(kitchen);
+                                    kitchenEmployees.Add(kitchen);
+                                }
                             }
                             progressDialog.UpdateProgress(100 * i / sumEmp.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
@@ -580,6 +636,8 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                 ));
 
                 backgroundThreadFetchKitchenData.Start();
+                progressDialog.ShowDialog();
+                backgroundThreadKitchenGetWrongData.Start();
                 progressDialog.ShowDialog();
                 backgroundThreadKitchenReportAdd.Start();
                 progressDialog.ShowDialog();

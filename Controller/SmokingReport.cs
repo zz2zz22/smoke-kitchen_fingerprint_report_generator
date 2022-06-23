@@ -25,7 +25,7 @@ namespace GetSmokingData_Techlink
         public void ExportExcelKitchenReportWrong(string PathSave, List<KitchenEmployee> kitchenEmployeesWrong)
         {
             ToolSupport toolSupport = new ToolSupport();
-            toolSupport.ExportKitchen(kitchenEmployeesWrong, PathSave, PathKitchenReportWrong);
+            toolSupport.ExportKitchenWrong(kitchenEmployeesWrong, PathSave, PathKitchenReportWrong);
         }
     }
 }

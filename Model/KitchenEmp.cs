@@ -14,5 +14,6 @@ namespace GetSmokingData_Techlink
         public string Dept { get; set; }
         public string Date { get; set; }
         public string sIn { get; set; }
+        public int type { get; set; }
     }
 }

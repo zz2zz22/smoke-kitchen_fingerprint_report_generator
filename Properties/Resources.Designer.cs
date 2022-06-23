@@ -63,6 +63,16 @@ namespace GetSmokingData_Techlink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap added {
+            get {
+                object obj = ResourceManager.GetObject("added", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
@@ -206,6 +216,16 @@ namespace GetSmokingData_Techlink.Properties {
         public static System.Drawing.Bitmap techlinkIntro_2 {
             get {
                 object obj = ResourceManager.GetObject("techlinkIntro_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap time_management {
+            get {
+                object obj = ResourceManager.GetObject("time-management", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

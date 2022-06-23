@@ -46,5 +46,17 @@ namespace GetSmokingData_Techlink.Properties {
                 this["introFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isAddFilter {
+            get {
+                return ((bool)(this["isAddFilter"]));
+            }
+            set {
+                this["isAddFilter"] = value;
+            }
+        }
     }
 }

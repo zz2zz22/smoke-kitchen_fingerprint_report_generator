@@ -109,6 +109,12 @@
     <Compile Include="Model\KitchenEmp.cs" />
     <Compile Include="Model\SaveVariables.cs" />
     <Compile Include="Model\SmokingEmp.cs" />
+    <Compile Include="View\SubWindow\AddBreak2Dept.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SubWindow\AddBreak2Dept.Designer.cs">
+      <DependentUpon>AddBreak2Dept.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\SubWindow\ChangeBreakTime.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +138,12 @@
     </Compile>
     <Compile Include="View\SubWindow\BreakSetting.Designer.cs">
       <DependentUpon>BreakSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubWindow\ConfigBreakTimeRange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SubWindow\ConfigBreakTimeRange.Designer.cs">
+      <DependentUpon>ConfigBreakTimeRange.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SubWindow\KitchenExport.cs">
       <SubType>Form</SubType>
@@ -169,11 +181,17 @@
     <EmbeddedResource Include="View\Component\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\SubWindow\AddBreak2Dept.resx">
+      <DependentUpon>AddBreak2Dept.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\SubWindow\BreakSetting.resx">
       <DependentUpon>BreakSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SubWindow\ChangeBreakTime.resx">
       <DependentUpon>ChangeBreakTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SubWindow\ConfigBreakTimeRange.resx">
+      <DependentUpon>ConfigBreakTimeRange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SubWindow\KitchenExport.resx">
       <DependentUpon>KitchenExport.cs</DependentUpon>
@@ -247,7 +265,9 @@
     <EmbeddedResource Include="Resources\KitchenReportForm.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Resources\KitchenReportForm_WrongTime.xlsx" />
+    <EmbeddedResource Include="Resources\KitchenReportForm_WrongTime.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Resources\smokeCactusE.png" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +290,8 @@
     <None Include="Resources\pencil.png" />
     <None Include="Resources\save.png" />
     <Content Include="app.ico" />
+    <None Include="Resources\added.png" />
+    <None Include="Resources\time-management.png" />
     <Content Include="scale2MES.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
