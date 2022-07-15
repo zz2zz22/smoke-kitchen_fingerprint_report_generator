@@ -230,6 +230,7 @@ namespace GetSmokingData_Techlink
                                xlWorkSheet.Cells[7 + j, "E"] = kitchenEmployees[i].Dept;
                                xlWorkSheet.Cells[7 + j, "F"] = kitchenEmployees[i].Date;
                                xlWorkSheet.Cells[7 + j, "G"] = kitchenEmployees[i].sIn;
+                               xlWorkSheet.Cells[7 + j, "H"] = kitchenEmployees[i].Error;
                                j++;
                            }
                            progressDialog.UpdateProgress(100 * i / kitchenEmployees.Count, "Đang tạo sheet phụ ... ");

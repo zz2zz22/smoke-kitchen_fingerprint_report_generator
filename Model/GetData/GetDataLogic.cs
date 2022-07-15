@@ -115,7 +115,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
   select a.pers_person_pin as Code, a.att_datetime as TimeIN, b.att_datetime as TimeOUT
   from #MyTemp2 a,
   #MyTemp2 b where a.device_sn = '4879202300002' and b.device_sn = '4879202300009' and b.ID = (a.ID + 1) and a.pers_person_pin = b.pers_person_pin
-and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime <= '" + next.ToString("yyyy-MM-dd HH:mm:ss") + "' order by a.att_datetime desc drop table #MyTemp drop table #MyTemp2");
+  and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime <= '" + next.ToString("yyyy-MM-dd HH:mm:ss") + "' order by a.att_datetime desc drop table #MyTemp drop table #MyTemp2");
                             sqlAtt.sqlDataAdapterFillDatatable(stringBuilder.ToString(), ref dt);
                             
 
@@ -258,7 +258,7 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                 temp2.Columns.Add(dtColumnTemp);
 
                 ComboBox cbxEmp = new ComboBox();
-                sqlAtt.getComboBoxData("select distinct pin from acc_transaction where LEN(pin) > 0 and UPPER(area_name) like 'KITCHEN' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ", ref cbxEmp);
+                sqlAtt.getComboBoxData("select distinct pin from acc_transaction where LEN(pin) > 0 and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ", ref cbxEmp);
 
                 ProgressDialog progressDialog = new ProgressDialog();
                 Thread backgroundThreadFetchKitchenData = new Thread(
@@ -269,8 +269,7 @@ and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_d
                             DataTable temp = new DataTable();
                             StringBuilder getDataKitchenonEmpID = new StringBuilder();
                             getDataKitchenonEmpID.Append(@"select pin as Code, event_time as inTime 
-from acc_transaction where UPPER(area_name) like 'KITCHEN'
-and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
+from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
                             sqlAtt.sqlDataAdapterFillDatatable(getDataKitchenonEmpID.ToString(), ref temp);
                             int reRow = 0;
                             temp.DefaultView.Sort = "inTime";
@@ -327,6 +326,7 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                             }
                             progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
+                        temp2.AcceptChanges();
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }));
 
@@ -351,10 +351,24 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                                         string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
                                         string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
 
-                                        DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
-                                        DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
                                         if (timeIn != String.Empty && timeOut != String.Empty)
                                         {
+                                            int inTime = int.Parse(timeIn.Substring(0, 2));
+                                            int outTime = int.Parse(timeOut.Substring(0, 2));
+                                            int checkType = int.Parse(sqlSoft.sqlExecuteScalarString("select distinct Type from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'"));
+                                            DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                            DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                            if (checkType == 3 && inTime > outTime)
+                                            {
+                                                DateTime nextTimeKitchen = timeKitchen.AddDays(1);
+                                                dOut = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                            }
+                                            if (checkType == 4)
+                                            {
+                                                DateTime nextTimeKitchen = timeKitchen.AddDays(1);
+                                                dIN = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                                dOut = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                            }
                                             if (timeKitchen >= dIN && timeKitchen <= dOut)
                                             {
                                                 checkBetween = true;
@@ -377,6 +391,7 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                     new ThreadStart(() =>
                     {
                         sumEmp.Merge(temp2);
+                        sumEmp.AcceptChanges();
                         sumEmp.DefaultView.Sort = "inTime";
                         sumEmp = sumEmp.DefaultView.ToTable();
                         for (int i = 0; i < sumEmp.Rows.Count; i++)
@@ -413,17 +428,40 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                                             string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
                                             string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
 
-                                            DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
-                                            DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
                                             if (timeIn != String.Empty && timeOut != String.Empty)
-                                            {
+                                            { 
+                                                int inTime = int.Parse(timeIn.Substring(0, 2));
+                                                int outTime = int.Parse(timeOut.Substring(0, 2));
+                                                int checkType = int.Parse(sqlSoft.sqlExecuteScalarString("select distinct Type from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'"));
+                                                DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                                DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                                if (checkType == 3 && inTime > outTime)
+                                                {
+                                                    DateTime nextTimeKitchen = timeKitchen.AddDays(1);
+                                                    dOut = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                                }
+                                                if (checkType == 4)
+                                                {
+                                                    DateTime nextTimeKitchen = timeKitchen.AddDays(1);
+                                                    dIN = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                                    dOut = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                                }
                                                 if (timeKitchen >= dIN && timeKitchen <= dOut)
                                                 {
                                                     breakType = int.Parse(sqlSoft.sqlExecuteScalarString("select distinct Type from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'"));
                                                 }
                                             }
                                         }
+                                        if (breakType == 0)
+                                        {
+                                            kitchen.Error = "Đi sai giờ";
+                                        }
                                     }
+                                    else
+                                    {
+                                        kitchen.Error = "Bộ phận chưa set giờ nghỉ";
+                                    }
+                                    
                                     kitchen.Date = splitDateIn[0];
                                     kitchen.type = breakType;
                                     kitchenEmployees.Add(kitchen);
@@ -482,10 +520,10 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                 temp2.Columns.Add(dtColumnTemp);
 
                 ComboBox cbxEmp = new ComboBox();
-                sqlAtt.getComboBoxData("select distinct pin from acc_transaction where LEN(pin) > 0 and UPPER(area_name) like 'KITCHEN' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ", ref cbxEmp);
+                sqlAtt.getComboBoxData("select distinct pin from acc_transaction where LEN(pin) > 0 and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ", ref cbxEmp);
 
                 ProgressDialog progressDialog = new ProgressDialog();
-                Thread backgroundThreadFetchKitchenData = new Thread(
+                Thread backgroundThreadFetchKitchenWrongData = new Thread(
                     new ThreadStart(() =>
                     {
                         for (int i = 0; i < cbxEmp.Items.Count; i++)
@@ -494,8 +532,7 @@ and pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-
                             
                             StringBuilder getDataKitchenonEmpID = new StringBuilder();
                             getDataKitchenonEmpID.Append(@"select pin as Code, event_time as inTime 
-from acc_transaction where UPPER(area_name) like 'KITCHEN'
-and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
+from acc_transaction where pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
                             sqlAtt.sqlDataAdapterFillDatatable(getDataKitchenonEmpID.ToString(), ref temp);
                             int reRow = 0;
 
@@ -549,9 +586,10 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                                     }
                                 }
                             }
-
+                            
                             progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
+                        temp2.AcceptChanges();
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }));
                 Thread backgroundThreadKitchenGetWrongData = new Thread(
@@ -575,10 +613,24 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                                             string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
                                             string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
 
-                                            DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
-                                            DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
                                             if (timeIn != String.Empty && timeOut != String.Empty)
                                             {
+                                                int inTime = int.Parse(timeIn.Substring(0, 2));
+                                                int outTime = int.Parse(timeOut.Substring(0, 2));
+                                                int checkType = int.Parse(sqlSoft.sqlExecuteScalarString("select distinct Type from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'"));
+                                                DateTime dIN = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                                DateTime dOut = Convert.ToDateTime(timeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                                if (checkType == 3 && inTime > outTime)
+                                                {
+                                                    DateTime nextTimeKitchen = timeKitchen.AddDays(1);
+                                                    dOut = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                                }
+                                                if (checkType == 4)
+                                                {
+                                                    DateTime nextTimeKitchen = timeKitchen.AddDays(1);
+                                                    dIN = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeIn);
+                                                    dOut = Convert.ToDateTime(nextTimeKitchen.ToString("yyyy-MM-dd") + " " + timeOut);
+                                                }
                                                 if (timeKitchen >= dIN && timeKitchen <= dOut)
                                                 {
                                                     checkBetween = true;
@@ -597,9 +649,10 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                         }
                         temp2.AcceptChanges();
                         sumEmp.Merge(temp2);
+                        sumEmp.AcceptChanges();
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                     }));
-                Thread backgroundThreadKitchenReportAdd = new Thread(
+                Thread backgroundThreadKitchenWrongReportAdd = new Thread(
                     new ThreadStart(() =>
                     {
                         sumEmp.DefaultView.Sort = "inTime";
@@ -635,11 +688,11 @@ and pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy
                     }
                 ));
 
-                backgroundThreadFetchKitchenData.Start();
+                backgroundThreadFetchKitchenWrongData.Start();
                 progressDialog.ShowDialog();
                 backgroundThreadKitchenGetWrongData.Start();
                 progressDialog.ShowDialog();
-                backgroundThreadKitchenReportAdd.Start();
+                backgroundThreadKitchenWrongReportAdd.Start();
                 progressDialog.ShowDialog();
                 return kitchenEmployees;
             }
