@@ -91,7 +91,7 @@ namespace GetSmokingData_Techlink
                     this.dtgv_deptBreak.Columns["Ten_Bo_Phan"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                     this.dtgv_deptBreak.Columns["Ten_Bo_Phan"].HeaderText = "Tên bộ phận";
                     this.dtgv_deptBreak.Columns["Bo_Phan_Lon"].HeaderText = "Bộ phận lớn";
-                } 
+                }
             }
             else
             {

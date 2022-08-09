@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GetSmokingData_Techlink")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("@Tech-Link Management System")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("@Tech-Link")]
 [assembly: AssemblyProduct("GetSmokingData_Techlink")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
