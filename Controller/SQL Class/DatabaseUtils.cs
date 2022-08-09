@@ -11,26 +11,26 @@ namespace GetSmokingData_Techlink
     {
         public static SqlConnection GetDBConnection()
         {
-            string datasource = "172.16.0.12";
-            string database = "VUSOFT_SUPPORT";
-            string username = "ERPUSER";
-            string password = "12345";
+            string datasource = "";
+            string database = "";
+            string username = "";
+            string password = "";
             return DatabaseSQLServerUtils.GetDBConnection(datasource, database, username, password);
         }
         public static SqlConnection GetHRDATAConnection()
         {
-            string datasource = "172.16.0.9\\tx";
-            string database = "txcard";
-            string username = "sa";
-            string password = "ppnn13";
+            string datasource = "";
+            string database = "";
+            string username = "";
+            string password = "";
             return DatabaseSQLServerUtils.GetHRDataConnection(datasource, database, username, password);
         }
         public static SqlConnection GetAttDATAConnection()
         {
-            string datasource = "172.16.0.19";
-            string database = "ZKBioAccess";
-            string username = "dev";
-            string password = "Techlink@123";
+            string datasource = "";
+            string database = "";
+            string username = "";
+            string password = "";
             return DatabaseSQLServerUtils.GetAttDBConnection(datasource, database, username, password);
         }
     }
