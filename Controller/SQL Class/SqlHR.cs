@@ -77,7 +77,7 @@ namespace GetSmokingData_Techlink
             }
             catch (Exception)
             {
-                //  MessageBox.Show(ex.Message, "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show(ex.Message, "Database Responce", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
         }

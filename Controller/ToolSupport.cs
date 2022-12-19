@@ -45,12 +45,11 @@ namespace GetSmokingData_Techlink
                 xlApp = new Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(pathForm, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
                 xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                string strWorksheetName = xlWorkSheet.Name;//Get the name of worksheet.   
                 ProgressDialog progressDialog = new ProgressDialog();
                 Thread backgroundThreadSmokeExcel = new Thread(
                    new ThreadStart(() =>
                    {
+                       xlWorkSheet.Name = "MainReport";
                        xlWorkSheet.Cells[4, "A"] = "SMOKING REPORT"; // Thêm ngày vào title
                        for (int i = 0; i < employeeSmoking.Count; i++)
                        {
@@ -64,20 +63,53 @@ namespace GetSmokingData_Techlink
                            xlWorkSheet.Cells[7 + i, "H"] = employeeSmoking[i].sOut;
                            xlWorkSheet.Cells[7 + i, "I"] = employeeSmoking[i].TotalMinute;
 
-                           progressDialog.UpdateProgress(100 * i / employeeSmoking.Count, "Đang tạo file excel ... ");
+                           progressDialog.UpdateProgress(100 * i / employeeSmoking.Count, "Đang tạo sheet tổng ... ");
                        }
-                       xlWorkBook.SaveAs(pathSave, Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
-                     misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                       xlWorkBook.Close();
+                       progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                   }));
+                Thread get3TimeSmoking = new Thread(
+                   new ThreadStart(() =>
+                   {
+                       xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(2);
+                       xlWorkSheet.Name = "OverSmoking";
+                       xlWorkSheet.Cells[4, "A"] = "OVER SMOKING REPORT"; // Thêm ngày vào title
+                       ComboBox _cbxExist = new ComboBox();
+                       for (int i = 0; i < employeeSmoking.Count; i++)
+                       {
+                           int count = employeeSmoking.Count(n => n.Code == employeeSmoking[i].Code);
+                           if (count > 3)
+                           {
+                               if (!_cbxExist.Items.Contains(employeeSmoking[i].Code))
+                               {
+                                   int j = 0;
+                                   _cbxExist.Items.Add(employeeSmoking[i].Code);
+                                   xlWorkSheet.Cells[7 + j, "A"] = (j + 1).ToString();
+                                   xlWorkSheet.Cells[7 + j, "B"] = employeeSmoking[i].Code;
+                                   xlWorkSheet.Cells[7 + j, "C"] = employeeSmoking[i].Name;
+                                   xlWorkSheet.Cells[7 + j, "D"] = employeeSmoking[i].BigDept;
+                                   xlWorkSheet.Cells[7 + j, "E"] = employeeSmoking[i].Dept;
+                                   xlWorkSheet.Cells[7 + j, "F"] = employeeSmoking[i].Date;
+                                   xlWorkSheet.Cells[7 + j, "G"] = count;
+                                   j++;
+                               }
+                           }
 
-                       xlApp.Quit();
-                       reOject(xlWorkSheet);
-                       reOject(xlWorkBook);
-                       reOject(xlApp);
+                           progressDialog.UpdateProgress(100 * i / employeeSmoking.Count, "Đang tạo sheet hút thuốc quá 3 lần ... ");
+                       }
                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                    }));
                 backgroundThreadSmokeExcel.Start();
                 progressDialog.ShowDialog();
+                get3TimeSmoking.Start();
+                progressDialog.ShowDialog();
+                xlWorkBook.SaveAs(pathSave, Excel.XlFileFormat.xlWorkbookDefault, misValue, misValue, misValue,
+                    misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                xlWorkBook.Close();
+
+                xlApp.Quit();
+                reOject(xlWorkSheet);
+                reOject(xlWorkBook);
+                reOject(xlApp);
             }
             catch (Exception)
             {

@@ -31,16 +31,14 @@ namespace GetSmokingData_Techlink
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.xuiWidgetPanel1 = new XanderUI.XUIWidgetPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.xuibtn_setting = new XanderUI.XUIButton();
             this.xuibtn_closeProgram = new XanderUI.XUIButton();
             this.xuibtn_smoke = new XanderUI.XUIButton();
             this.xuibtn_kitchen = new XanderUI.XUIButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // xuiWidgetPanel1
@@ -51,6 +49,26 @@ namespace GetSmokingData_Techlink
             this.xuiWidgetPanel1.Name = "xuiWidgetPanel1";
             this.xuiWidgetPanel1.Size = new System.Drawing.Size(856, 607);
             this.xuiWidgetPanel1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(306, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(111, 21);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Version 0.1.1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(31, 698);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(129, 21);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Dev: TL-14042";
             // 
             // xuibtn_setting
             // 
@@ -101,7 +119,7 @@ namespace GetSmokingData_Techlink
             // xuibtn_smoke
             // 
             this.xuibtn_smoke.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(70)))), ((int)(((byte)(75)))));
-            this.xuibtn_smoke.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.smokeCactusE;
+            this.xuibtn_smoke.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.ashtray_cigarette_removebg_preview;
             this.xuibtn_smoke.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
             this.xuibtn_smoke.ButtonText = "";
             this.xuibtn_smoke.ClickBackColor = System.Drawing.Color.White;
@@ -124,7 +142,7 @@ namespace GetSmokingData_Techlink
             // xuibtn_kitchen
             // 
             this.xuibtn_kitchen.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(70)))), ((int)(((byte)(75)))));
-            this.xuibtn_kitchen.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.catChef;
+            this.xuibtn_kitchen.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.cooking_16811;
             this.xuibtn_kitchen.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
             this.xuibtn_kitchen.ButtonText = "";
             this.xuibtn_kitchen.ClickBackColor = System.Drawing.Color.White;
@@ -155,36 +173,6 @@ namespace GetSmokingData_Techlink
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::GetSmokingData_Techlink.Properties.Resources.zaloQR;
-            this.pictureBox2.Location = new System.Drawing.Point(25, 545);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(150, 150);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 6;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(306, 90);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 21);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Version 0.1.1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(31, 698);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 21);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Dev: TL-14042";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -193,7 +181,6 @@ namespace GetSmokingData_Techlink
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.xuibtn_setting);
             this.Controls.Add(this.xuiWidgetPanel1);
             this.Controls.Add(this.xuibtn_closeProgram);
@@ -210,7 +197,6 @@ namespace GetSmokingData_Techlink
             this.Text = "Get Smoke & Kitchen Report - beta vesion";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,7 +209,6 @@ namespace GetSmokingData_Techlink
         private XanderUI.XUIButton xuibtn_closeProgram;
         private System.Windows.Forms.PictureBox pictureBox1;
         private XanderUI.XUIButton xuibtn_setting;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }

@@ -43,7 +43,7 @@ namespace GetSmokingData_Techlink
             this.lb_announce.AutoSize = true;
             this.lb_announce.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_announce.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lb_announce.Location = new System.Drawing.Point(266, 128);
+            this.lb_announce.Location = new System.Drawing.Point(266, 127);
             this.lb_announce.Name = "lb_announce";
             this.lb_announce.Size = new System.Drawing.Size(187, 19);
             this.lb_announce.TabIndex = 1;
@@ -74,10 +74,10 @@ namespace GetSmokingData_Techlink
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::GetSmokingData_Techlink.Properties.Resources.load;
-            this.pictureBox1.Location = new System.Drawing.Point(-62, -31);
+            this.pictureBox1.Image = global::GetSmokingData_Techlink.Properties.Resources.loading;
+            this.pictureBox1.Location = new System.Drawing.Point(-157, -136);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(386, 300);
+            this.pictureBox1.Size = new System.Drawing.Size(572, 484);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
@@ -86,6 +86,7 @@ namespace GetSmokingData_Techlink
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(644, 250);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lb_announce);

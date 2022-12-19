@@ -130,32 +130,63 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000)
+                            if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000 && Convert.ToInt32(dt.Rows[i]["Code"].ToString()) != 1)
                             {
-                                string[] deptCode = GetEmpDataFromCodeInt(dt.Rows[i]["Code"].ToString()).Split(';');
-                                string breaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + deptCode[2] + "'");
-                                if (breaksTime != String.Empty)
-                                {
-                                    string[] breakIDs = breaksTime.Split(';');
                                     DateTime time = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString());
-                                    for (int j = 0; j < breakIDs.Count(); j ++)
+                                    string[] deptCode = GetEmpDataFromCodeInt(dt.Rows[i]["Code"].ToString()).Split(';');
+                                    string breaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + deptCode[2] + "'");
+                                    if (breaksTime != String.Empty)
                                     {
-                                        string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakIDs[j] + "'");
-                                        string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakIDs[j] + "'");
+                                        string[] breakIDs = breaksTime.Split(';');
                                         
-                                        DateTime dIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeIn);
-                                        DateTime dOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeOut);
-                                        if (timeIn != String.Empty && timeOut != String.Empty)
+                                        for (int j = 0; j < breakIDs.Count(); j++)
                                         {
-                                            if (time >= dIN && time <= dOut)
+                                            string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakIDs[j] + "'");
+                                            string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakIDs[j] + "'");
+
+                                            DateTime dIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeIn);
+                                            DateTime dOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeOut);
+                                            if (timeIn != String.Empty && timeOut != String.Empty)
                                             {
-                                                dt.Rows[i].Delete();
+                                                if (time >= dIN && time <= dOut)
+                                                {
+                                                    dt.Rows[i].Delete();
+
+                                                }
                                             }
+                                            
                                         }
-                                        progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Xóa các dữ liệu trong giờ nghỉ ... ");
+                                    
+                                    }
+                                string empID = sqlHR.sqlExecuteScalarString("select ID from ZlEmployee where Code = '" + deptCode[0] + "'");
+                                string paiBan = sqlHR.sqlExecuteScalarString("select B"+DateTime.Now.Day+ " from Kq_PaiBan where EmpID = '" + empID + "' and SessionID = (select MAX(SessionID) from Kq_PaiBan where EmpID = '" + empID + "') ");
+                                string isNightShift = sqlSoft.sqlExecuteScalarString("select isNightShift from WorkShifts where shift_uuid = '" + paiBan + "'");
+                                string timeShiftIN = sqlSoft.sqlExecuteScalarString("select time_in from WorkShifts where shift_uuid = '" + paiBan + "'");
+                                string timeShiftOut = sqlSoft.sqlExecuteScalarString("select time_out from WorkShifts where shift_uuid = '" + paiBan + "'");
+                                if(!String.IsNullOrEmpty(timeShiftIN) && !String.IsNullOrEmpty(timeShiftOut) && !String.IsNullOrEmpty(isNightShift))
+                                {
+                                    if (isNightShift == "0")
+                                    {
+                                        DateTime dShiftIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftIN);
+                                        DateTime dShiftOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftOut);
+                                        if (time < dShiftIN || time > dShiftOut)
+                                        {
+                                            dt.Rows[i].Delete();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DateTime dShiftIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftIN);
+                                        DateTime dShiftOut = Convert.ToDateTime(time.AddDays(1).ToString("yyyy-MM-dd") + " " + timeShiftOut);
+                                        if (time < dShiftIN || time > dShiftOut)
+                                        {
+                                            dt.Rows[i].Delete();
+                                        }
                                     }
                                 }
+
                             }
+                            progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Xóa các dữ liệu trong giờ nghỉ ... ");
                         }
                         dt.AcceptChanges();
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
@@ -164,11 +195,15 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                 Thread backgroundThreadReportAdd = new Thread(
                     new ThreadStart(() =>
                     {
-                        dt.DefaultView.Sort = "TimeIN";
-                        dt = dt.DefaultView.ToTable();
+                        if (dt.Rows.Count > 0 )
+                        {
+                            dt.DefaultView.Sort = "TimeIN";
+                            dt = dt.DefaultView.ToTable();
+                        }
+                        
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000)
+                            if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000 && Convert.ToInt32(dt.Rows[i]["Code"].ToString()) != 1)
                             {
                                 EmployeeSmoking smoke = new EmployeeSmoking();
                                 string[] info = GetEmpDataFromCodeInt(dt.Rows[i]["Code"].ToString()).Split(';');
@@ -209,12 +244,9 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                 ));
 
                 backgroundThreadFetchData.Start();
+                progressDialog.ShowDialog();     
+                backgroundBreakRemove.Start();
                 progressDialog.ShowDialog();
-                if (Properties.Settings.Default.isRemoveBT == true)
-                {
-                    backgroundBreakRemove.Start();
-                    progressDialog.ShowDialog();
-                }  
                 backgroundThreadReportAdd.Start();
                 progressDialog.ShowDialog();
                 return employeeSmokings;

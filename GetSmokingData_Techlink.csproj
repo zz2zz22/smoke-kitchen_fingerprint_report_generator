@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>\\172.16.0.12\Softwarepublish\Publish &amp; Source Code - Vu Software\Publish &amp; Setup files\Smoke&amp;Kitchen\</PublishUrl>
+    <PublishUrl>\\172.16.0.12\Softwarepublish\PublishVu\kitchen_smoking_management\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -22,14 +22,16 @@
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <PublisherName>Le Anh Vu</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <WebPage>publish.html</WebPage>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ProductName>Smoking &amp; Kitchen Manage</ProductName>
+    <PublisherName>AnhVu</PublisherName>
+    <MinimumRequiredVersion>1.0.0.0</MinimumRequiredVersion>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -63,10 +65,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationIcon>TechLink.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -79,7 +81,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>GetSmokingData_Techlink_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -100,8 +103,8 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="XanderUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>C:\Users\Anh Vu\Downloads\XanderUI.dll</HintPath>
+    <Reference Include="XanderUI">
+      <HintPath>..\1_Images&amp;Resources\Library\XanderUI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +175,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="TechLink.ico" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -209,8 +213,6 @@
     <EmbeddedResource Include="View\SubWindow\SmokeExport.resx">
       <DependentUpon>SmokeExport.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="GetSmokingData_Key.pfx" />
-    <None Include="GetSmokingData_Techlink_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -221,9 +223,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\SmokingReportForm.xlsx">
+    <None Include="Resources\ashtray_cigarette-removebg-preview.png" />
+    <None Include="Resources\cooking_16811.png" />
+    <None Include="Resources\CartoonSnail.gif" />
+    <None Include="Resources\loading.gif" />
+    <Content Include="Resources\SmokingReportForm.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -270,12 +276,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\KitchenReportForm.xlsx">
+    <Content Include="Resources\KitchenReportForm.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\KitchenReportForm_WrongTime.xlsx">
+    </Content>
+    <Content Include="Resources\KitchenReportForm_WrongTime.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
     <None Include="Resources\smokeCactusE.png" />
   </ItemGroup>
   <ItemGroup>
@@ -285,13 +291,19 @@
     <None Include="Resources\excel.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\load.gif" />
+    <Content Include="Resources\load.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\techlinkIntro.gif" />
+    <Content Include="Resources\techlinkIntro.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\logoTechlink.png" />
     <None Include="Resources\z3466999361583_bd67445e00e1efe36ced753cee2aa3e4.jpg" />
-    <None Include="Resources\FunIntro2.gif" />
+    <Content Include="Resources\FunIntro2.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\control.png" />
     <None Include="Resources\cancel.png" />
     <None Include="Resources\question.png" />

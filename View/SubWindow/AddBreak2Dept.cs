@@ -251,13 +251,14 @@ namespace GetSmokingData_Techlink
                                 progressDialog.UpdateProgress(100 * i / temp.Rows.Count, "Lưu thông tin các bộ phận lên server... ");
                             }
                             temp = null;
-                            dtgv_chooseDept.DataSource = null;
-                            dtgv_UnsetDept.DataSource = GetUnSetDept();
+                            
                             SaveVariables.ResetTempValue();
                             progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
                         }));
                     addData.Start();
                     progressDialog.ShowDialog();
+                    dtgv_chooseDept.DataSource = null;
+                    dtgv_UnsetDept.DataSource = GetUnSetDept();
                 }
                 else
                 {
