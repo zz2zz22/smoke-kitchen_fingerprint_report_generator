@@ -74,14 +74,14 @@ namespace GetSmokingData_Techlink
                        xlWorkSheet.Name = "OverSmoking";
                        xlWorkSheet.Cells[4, "A"] = "OVER SMOKING REPORT"; // Thêm ngày vào title
                        ComboBox _cbxExist = new ComboBox();
+                       int j = 0;
                        for (int i = 0; i < employeeSmoking.Count; i++)
                        {
                            int count = employeeSmoking.Count(n => n.Code == employeeSmoking[i].Code);
-                           if (count > 3)
+                           if (!_cbxExist.Items.Contains(employeeSmoking[i].Code))
                            {
-                               if (!_cbxExist.Items.Contains(employeeSmoking[i].Code))
+                               if (count > 3)
                                {
-                                   int j = 0;
                                    _cbxExist.Items.Add(employeeSmoking[i].Code);
                                    xlWorkSheet.Cells[7 + j, "A"] = (j + 1).ToString();
                                    xlWorkSheet.Cells[7 + j, "B"] = employeeSmoking[i].Code;
@@ -92,8 +92,8 @@ namespace GetSmokingData_Techlink
                                    xlWorkSheet.Cells[7 + j, "G"] = count;
                                    j++;
                                }
-                           }
 
+                           }
                            progressDialog.UpdateProgress(100 * i / employeeSmoking.Count, "Đang tạo sheet hút thuốc quá 3 lần ... ");
                        }
                        progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
@@ -347,5 +347,5 @@ namespace GetSmokingData_Techlink
             }
         }
 
-    } 
+    }
 }

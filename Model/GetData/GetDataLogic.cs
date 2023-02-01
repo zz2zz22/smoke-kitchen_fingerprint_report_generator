@@ -20,7 +20,7 @@ namespace GetSmokingData_Techlink
             sqlGetDataEmp.Append(@"select e.Code + ';' + e.Name + ';' + d.Code + ';' + d.UpCode 
  from ZlEmployee as e, ZlDept as d 
  where e.Code like '%-%' and CAST(SUBSTRING(e.Code, CHARINDEX('-', e.Code) + 1, LEN(e.Code)) AS int) = '" + code + "' and e.Dept = d.Code ");
-            
+
             string data = sqlHR.sqlExecuteScalarString(sqlGetDataEmp.ToString());
             if (data != String.Empty)
             {
@@ -65,9 +65,11 @@ namespace GetSmokingData_Techlink
         #region smokeReport
         public List<EmployeeSmoking> GetSmokingData(DateTime from, DateTime to) //Mot them dieu kien loc gio nghi
         {
+            string bug = null, S = null;
             List<EmployeeSmoking> employeeSmokings = new List<EmployeeSmoking>();
             try
             {
+                
                 SqlAtt sqlAtt = new SqlAtt();
                 SqlHR sqlHR = new SqlHR();
                 SqlSoft sqlSoft = new SqlSoft();
@@ -77,7 +79,7 @@ namespace GetSmokingData_Techlink
                 sqlGetCode.Append("select distinct pers_person_pin from att_transaction where att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "'");
                 sqlAtt.getComboBoxData(sqlGetCode.ToString(), ref comboBox);
                 DataTable dt = new DataTable();
-                
+
                 ProgressDialog progressDialog = new ProgressDialog();
 
                 DateTime next = to.AddHours(1);
@@ -117,9 +119,9 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
   #MyTemp2 b where a.device_sn = '4879202300002' and b.device_sn = '4879202300009' and b.ID = (a.ID + 1) and a.pers_person_pin = b.pers_person_pin
   and a.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and a.att_datetime <= '" + to.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime >= '" + from.ToString("yyyy-MM-dd HH:mm:ss") + "' and b.att_datetime <= '" + next.ToString("yyyy-MM-dd HH:mm:ss") + "' order by a.att_datetime desc drop table #MyTemp drop table #MyTemp2");
                             sqlAtt.sqlDataAdapterFillDatatable(stringBuilder.ToString(), ref dt);
-                            
 
-                progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Đang lấy dữ liệu từ server ... ");
+
+                            progressDialog.UpdateProgress(100 * x / comboBox.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
 
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
@@ -132,13 +134,29 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                         {
                             if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000 && Convert.ToInt32(dt.Rows[i]["Code"].ToString()) != 1)
                             {
-                                    DateTime time = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString());
-                                    string[] deptCode = GetEmpDataFromCodeInt(dt.Rows[i]["Code"].ToString()).Split(';');
+                                DateTime time = Convert.ToDateTime(dt.Rows[i]["TimeIN"].ToString());
+                                string[] deptCode = GetEmpDataFromCodeInt(dt.Rows[i]["Code"].ToString()).Split(';');
+                                if (deptCode.Length < 2)
+                                {
+                                    S = dt.Rows[i]["Code"].ToString();
+                                    if (String.IsNullOrEmpty(bug))
+                                    {
+                                        bug = S;
+                                    }
+                                    else
+                                    {
+                                        if(!bug.Contains(S))
+                                            bug = bug + ";" + S;
+                                    }
+                                    dt.Rows[i].Delete();
+                                }
+                                else
+                                {
                                     string breaksTime = sqlSoft.sqlExecuteScalarString("select BreakID1 + ';' + BreakID2 + ';' + BreakID3 +';'+ BreakID4 from BreakTimeRange where DeptID = '" + deptCode[2] + "'");
                                     if (breaksTime != String.Empty)
                                     {
                                         string[] breakIDs = breaksTime.Split(';');
-                                        
+
                                         for (int j = 0; j < breakIDs.Count(); j++)
                                         {
                                             string timeIn = sqlSoft.sqlExecuteScalarString("select InTime from KitchenReport_BreakTimeRange where ID = '" + breakIDs[j] + "'");
@@ -154,36 +172,38 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
 
                                                 }
                                             }
-                                            
+
                                         }
-                                    
+
                                     }
-                                string empID = sqlHR.sqlExecuteScalarString("select ID from ZlEmployee where Code = '" + deptCode[0] + "'");
-                                string paiBan = sqlHR.sqlExecuteScalarString("select B"+DateTime.Now.Day+ " from Kq_PaiBan where EmpID = '" + empID + "' and SessionID = (select MAX(SessionID) from Kq_PaiBan where EmpID = '" + empID + "') ");
-                                string isNightShift = sqlSoft.sqlExecuteScalarString("select isNightShift from WorkShifts where shift_uuid = '" + paiBan + "'");
-                                string timeShiftIN = sqlSoft.sqlExecuteScalarString("select time_in from WorkShifts where shift_uuid = '" + paiBan + "'");
-                                string timeShiftOut = sqlSoft.sqlExecuteScalarString("select time_out from WorkShifts where shift_uuid = '" + paiBan + "'");
-                                if(!String.IsNullOrEmpty(timeShiftIN) && !String.IsNullOrEmpty(timeShiftOut) && !String.IsNullOrEmpty(isNightShift))
-                                {
-                                    if (isNightShift == "0")
+                                    string empID = sqlHR.sqlExecuteScalarString("select ID from ZlEmployee where Code = '" + deptCode[0] + "'");
+                                    string paiBan = sqlHR.sqlExecuteScalarString("select B" + DateTime.Now.Day + " from Kq_PaiBan where EmpID = '" + empID + "' and SessionID = (select MAX(SessionID) from Kq_PaiBan where EmpID = '" + empID + "') ");
+                                    string isNightShift = sqlSoft.sqlExecuteScalarString("select isNightShift from WorkShifts where shift_uuid = '" + paiBan + "'");
+                                    string timeShiftIN = sqlSoft.sqlExecuteScalarString("select time_in from WorkShifts where shift_uuid = '" + paiBan + "'");
+                                    string timeShiftOut = sqlSoft.sqlExecuteScalarString("select time_out from WorkShifts where shift_uuid = '" + paiBan + "'");
+                                    if (!String.IsNullOrEmpty(timeShiftIN) && !String.IsNullOrEmpty(timeShiftOut) && !String.IsNullOrEmpty(isNightShift))
                                     {
-                                        DateTime dShiftIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftIN);
-                                        DateTime dShiftOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftOut);
-                                        if (time < dShiftIN || time > dShiftOut)
+                                        if (isNightShift == "0")
                                         {
-                                            dt.Rows[i].Delete();
+                                            DateTime dShiftIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftIN);
+                                            DateTime dShiftOut = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftOut);
+                                            if (time < dShiftIN || time > dShiftOut)
+                                            {
+                                                dt.Rows[i].Delete();
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        DateTime dShiftIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftIN);
-                                        DateTime dShiftOut = Convert.ToDateTime(time.AddDays(1).ToString("yyyy-MM-dd") + " " + timeShiftOut);
-                                        if (time < dShiftIN || time > dShiftOut)
+                                        else
                                         {
-                                            dt.Rows[i].Delete();
+                                            DateTime dShiftIN = Convert.ToDateTime(time.ToString("yyyy-MM-dd") + " " + timeShiftIN);
+                                            DateTime dShiftOut = Convert.ToDateTime(time.AddDays(1).ToString("yyyy-MM-dd") + " " + timeShiftOut);
+                                            if (time < dShiftIN || time > dShiftOut)
+                                            {
+                                                dt.Rows[i].Delete();
+                                            }
                                         }
                                     }
                                 }
+
 
                             }
                             progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Xóa các dữ liệu trong giờ nghỉ ... ");
@@ -195,12 +215,12 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                 Thread backgroundThreadReportAdd = new Thread(
                     new ThreadStart(() =>
                     {
-                        if (dt.Rows.Count > 0 )
+                        if (dt.Rows.Count > 0)
                         {
                             dt.DefaultView.Sort = "TimeIN";
                             dt = dt.DefaultView.ToTable();
                         }
-                        
+
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             if (Convert.ToInt32(dt.Rows[i]["Code"].ToString()) < 30000 && Convert.ToInt32(dt.Rows[i]["Code"].ToString()) != 1)
@@ -224,7 +244,7 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                                 {
                                     deptInfo = GetDeptDataFromCodeIntFail(info[2], info[3]).Split(';');
                                 }
-                                
+
                                 smoke.Code = info[0];
                                 smoke.Name = info[1];
                                 smoke.BigDept = deptInfo[1];
@@ -240,21 +260,24 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                             progressDialog.UpdateProgress(100 * i / dt.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                        
                     }
                 ));
 
                 backgroundThreadFetchData.Start();
-                progressDialog.ShowDialog();     
+                progressDialog.ShowDialog();
                 backgroundBreakRemove.Start();
                 progressDialog.ShowDialog();
                 backgroundThreadReportAdd.Start();
                 progressDialog.ShowDialog();
+                
                 return employeeSmokings;
             }
             catch (Exception)
             {
+                MessageBox.Show("Các mã nhân viên thiếu dữ liệu txcard " + bug);
                 throw;
-            } 
+            }
         }
         #endregion
 
@@ -296,17 +319,17 @@ SELECT a.id, a.pers_person_pin, a.att_datetime, a.device_sn
                 Thread backgroundThreadFetchKitchenData = new Thread(
                     new ThreadStart(() =>
                     {
-                        for (int i = 0; i < cbxEmp.Items.Count; i ++)
+                        for (int i = 0; i < cbxEmp.Items.Count; i++)
                         {
                             DataTable temp = new DataTable();
                             StringBuilder getDataKitchenonEmpID = new StringBuilder();
                             getDataKitchenonEmpID.Append(@"select pin as Code, event_time as inTime 
-from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
+from acc_transaction where pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
                             sqlAtt.sqlDataAdapterFillDatatable(getDataKitchenonEmpID.ToString(), ref temp);
                             int reRow = 0;
                             temp.DefaultView.Sort = "inTime";
                             temp = temp.DefaultView.ToTable();
-                            for (int j = 0; j < temp.Rows.Count; j ++)
+                            for (int j = 0; j < temp.Rows.Count; j++)
                             {
                                 if (temp.Rows.Count > 1)
                                 {
@@ -411,7 +434,7 @@ from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + da
                                         temp2.Rows[a].Delete();
                                 }
                             }
-                            
+
                         }
                         progressDialog.UpdateProgress(100 * a / temp2.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                     }
@@ -461,7 +484,7 @@ from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + da
                                             string timeOut = sqlSoft.sqlExecuteScalarString("select OutTime from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'");
 
                                             if (timeIn != String.Empty && timeOut != String.Empty)
-                                            { 
+                                            {
                                                 int inTime = int.Parse(timeIn.Substring(0, 2));
                                                 int outTime = int.Parse(timeOut.Substring(0, 2));
                                                 int checkType = int.Parse(sqlSoft.sqlExecuteScalarString("select distinct Type from KitchenReport_BreakTimeRange where ID = '" + breakDeptIDs[j] + "'"));
@@ -493,7 +516,7 @@ from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + da
                                     {
                                         kitchen.Error = "Bộ phận chưa set giờ nghỉ";
                                     }
-                                    
+
                                     kitchen.Date = splitDateIn[0];
                                     kitchen.type = breakType;
                                     kitchenEmployees.Add(kitchen);
@@ -502,6 +525,7 @@ from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + da
                             progressDialog.UpdateProgress(100 * i / sumEmp.Rows.Count, "Thêm dữ liệu vào file excel ... ");
                         }
                         progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+                        
                     }
                 ));
 
@@ -516,7 +540,7 @@ from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + da
                 progressDialog.ShowDialog();
                 return kitchenEmployees;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -561,7 +585,7 @@ from acc_transaction where pin = '"+cbxEmp.Items[i]+"' and event_time >= '" + da
                         for (int i = 0; i < cbxEmp.Items.Count; i++)
                         {
                             DataTable temp = new DataTable();
-                            
+
                             StringBuilder getDataKitchenonEmpID = new StringBuilder();
                             getDataKitchenonEmpID.Append(@"select pin as Code, event_time as inTime 
 from acc_transaction where pin = '" + cbxEmp.Items[i] + "' and event_time >= '" + dateIn.ToString("yyyy-MM-dd HH:mm:ss") + "' and event_time <= '" + dateOut.ToString("yyyy-MM-dd HH:mm:ss") + "' ");
@@ -618,7 +642,7 @@ from acc_transaction where pin = '" + cbxEmp.Items[i] + "' and event_time >= '" 
                                     }
                                 }
                             }
-                            
+
                             progressDialog.UpdateProgress(100 * i / cbxEmp.Items.Count, "Đang lấy dữ liệu từ server ... ");
                         }
                         temp2.AcceptChanges();
