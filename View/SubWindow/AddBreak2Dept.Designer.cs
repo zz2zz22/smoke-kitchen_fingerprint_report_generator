@@ -275,7 +275,7 @@ namespace GetSmokingData_Techlink
             this.label6.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(40, 540);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 22);
+            this.label6.Size = new System.Drawing.Size(61, 20);
             this.label6.TabIndex = 12;
             this.label6.Text = "Khuya";
             // 
@@ -286,7 +286,7 @@ namespace GetSmokingData_Techlink
             this.label5.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(44, 479);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 22);
+            this.label5.Size = new System.Drawing.Size(35, 20);
             this.label5.TabIndex = 11;
             this.label5.Text = "Tối";
             // 
@@ -297,7 +297,7 @@ namespace GetSmokingData_Techlink
             this.label4.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(44, 418);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 22);
+            this.label4.Size = new System.Drawing.Size(55, 20);
             this.label4.TabIndex = 10;
             this.label4.Text = "Chiều";
             // 
@@ -308,7 +308,7 @@ namespace GetSmokingData_Techlink
             this.label3.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(44, 360);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 22);
+            this.label3.Size = new System.Drawing.Size(46, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "Trưa";
             // 

@@ -29,20 +29,21 @@ namespace GetSmokingData_Techlink
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.grb_breakSetting = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.xuibtn_addDeptBreak = new XanderUI.XUIButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbx_introSelect = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lb_choseDeptName = new System.Windows.Forms.Label();
             this.lb_choseDept = new System.Windows.Forms.Label();
             this.lb_search = new System.Windows.Forms.Label();
+            this.xuibtn_editDept = new XanderUI.XUIButton();
             this.dtgv_deptBreak = new System.Windows.Forms.DataGridView();
             this.txb_search = new System.Windows.Forms.TextBox();
             this.xuiButton1 = new XanderUI.XUIButton();
             this.xuibtn_closeSetting = new XanderUI.XUIButton();
-            this.xuibtn_addDeptBreak = new XanderUI.XUIButton();
-            this.xuibtn_editDept = new XanderUI.XUIButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.grb_breakSetting.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -84,6 +85,29 @@ namespace GetSmokingData_Techlink
             this.label2.TabIndex = 9;
             this.label2.Text = "*Nút bên phải dùng để thêm giờ nghỉ vào các bộ\r\nphận CHƯA được gán giờ nghỉ nào\r\n" +
     "";
+            // 
+            // xuibtn_addDeptBreak
+            // 
+            this.xuibtn_addDeptBreak.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(70)))), ((int)(((byte)(75)))));
+            this.xuibtn_addDeptBreak.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.added;
+            this.xuibtn_addDeptBreak.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
+            this.xuibtn_addDeptBreak.ButtonText = "";
+            this.xuibtn_addDeptBreak.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(75)))), ((int)(((byte)(80)))));
+            this.xuibtn_addDeptBreak.ClickTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(130)))), ((int)(((byte)(140)))));
+            this.xuibtn_addDeptBreak.CornerRadius = 10;
+            this.xuibtn_addDeptBreak.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold);
+            this.xuibtn_addDeptBreak.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuibtn_addDeptBreak.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(80)))), ((int)(((byte)(90)))));
+            this.xuibtn_addDeptBreak.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
+            this.xuibtn_addDeptBreak.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
+            this.xuibtn_addDeptBreak.Location = new System.Drawing.Point(965, 26);
+            this.xuibtn_addDeptBreak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xuibtn_addDeptBreak.Name = "xuibtn_addDeptBreak";
+            this.xuibtn_addDeptBreak.Size = new System.Drawing.Size(67, 62);
+            this.xuibtn_addDeptBreak.TabIndex = 6;
+            this.xuibtn_addDeptBreak.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(200)))), ((int)(((byte)(185)))));
+            this.xuibtn_addDeptBreak.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuibtn_addDeptBreak.Click += new System.EventHandler(this.xuibtn_addDeptBreak_Click);
             // 
             // panel1
             // 
@@ -149,6 +173,29 @@ namespace GetSmokingData_Techlink
             this.lb_search.TabIndex = 6;
             this.lb_search.Text = "Tìm kiếm";
             // 
+            // xuibtn_editDept
+            // 
+            this.xuibtn_editDept.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.xuibtn_editDept.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.pencil;
+            this.xuibtn_editDept.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
+            this.xuibtn_editDept.ButtonText = "";
+            this.xuibtn_editDept.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(75)))), ((int)(((byte)(80)))));
+            this.xuibtn_editDept.ClickTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(130)))), ((int)(((byte)(140)))));
+            this.xuibtn_editDept.CornerRadius = 10;
+            this.xuibtn_editDept.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold);
+            this.xuibtn_editDept.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuibtn_editDept.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(80)))), ((int)(((byte)(90)))));
+            this.xuibtn_editDept.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
+            this.xuibtn_editDept.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
+            this.xuibtn_editDept.Location = new System.Drawing.Point(593, 507);
+            this.xuibtn_editDept.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.xuibtn_editDept.Name = "xuibtn_editDept";
+            this.xuibtn_editDept.Size = new System.Drawing.Size(93, 86);
+            this.xuibtn_editDept.TabIndex = 5;
+            this.xuibtn_editDept.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(200)))), ((int)(((byte)(185)))));
+            this.xuibtn_editDept.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.xuibtn_editDept.Click += new System.EventHandler(this.xuibtn_editDept_Click);
+            // 
             // dtgv_deptBreak
             // 
             this.dtgv_deptBreak.AllowUserToAddRows = false;
@@ -156,7 +203,16 @@ namespace GetSmokingData_Techlink
             this.dtgv_deptBreak.AllowUserToOrderColumns = true;
             this.dtgv_deptBreak.AllowUserToResizeRows = false;
             this.dtgv_deptBreak.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Yellow;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtgv_deptBreak.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtgv_deptBreak.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgv_deptBreak.EnableHeadersVisualStyles = false;
             this.dtgv_deptBreak.Location = new System.Drawing.Point(7, 96);
             this.dtgv_deptBreak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtgv_deptBreak.MultiSelect = false;
@@ -223,52 +279,6 @@ namespace GetSmokingData_Techlink
             this.xuibtn_closeSetting.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(200)))), ((int)(((byte)(185)))));
             this.xuibtn_closeSetting.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.xuibtn_closeSetting.Click += new System.EventHandler(this.xuibtn_closeSetting_Click);
-            // 
-            // xuibtn_addDeptBreak
-            // 
-            this.xuibtn_addDeptBreak.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(70)))), ((int)(((byte)(75)))));
-            this.xuibtn_addDeptBreak.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.added;
-            this.xuibtn_addDeptBreak.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
-            this.xuibtn_addDeptBreak.ButtonText = "";
-            this.xuibtn_addDeptBreak.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(75)))), ((int)(((byte)(80)))));
-            this.xuibtn_addDeptBreak.ClickTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(130)))), ((int)(((byte)(140)))));
-            this.xuibtn_addDeptBreak.CornerRadius = 10;
-            this.xuibtn_addDeptBreak.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold);
-            this.xuibtn_addDeptBreak.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.xuibtn_addDeptBreak.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(80)))), ((int)(((byte)(90)))));
-            this.xuibtn_addDeptBreak.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
-            this.xuibtn_addDeptBreak.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
-            this.xuibtn_addDeptBreak.Location = new System.Drawing.Point(965, 26);
-            this.xuibtn_addDeptBreak.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xuibtn_addDeptBreak.Name = "xuibtn_addDeptBreak";
-            this.xuibtn_addDeptBreak.Size = new System.Drawing.Size(67, 62);
-            this.xuibtn_addDeptBreak.TabIndex = 6;
-            this.xuibtn_addDeptBreak.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(200)))), ((int)(((byte)(185)))));
-            this.xuibtn_addDeptBreak.Vertical_Alignment = System.Drawing.StringAlignment.Center;
-            this.xuibtn_addDeptBreak.Click += new System.EventHandler(this.xuibtn_addDeptBreak_Click);
-            // 
-            // xuibtn_editDept
-            // 
-            this.xuibtn_editDept.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.xuibtn_editDept.ButtonImage = global::GetSmokingData_Techlink.Properties.Resources.pencil;
-            this.xuibtn_editDept.ButtonStyle = XanderUI.XUIButton.Style.MaterialRounded;
-            this.xuibtn_editDept.ButtonText = "";
-            this.xuibtn_editDept.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(75)))), ((int)(((byte)(80)))));
-            this.xuibtn_editDept.ClickTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(130)))), ((int)(((byte)(140)))));
-            this.xuibtn_editDept.CornerRadius = 10;
-            this.xuibtn_editDept.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold);
-            this.xuibtn_editDept.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.xuibtn_editDept.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(80)))), ((int)(((byte)(90)))));
-            this.xuibtn_editDept.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
-            this.xuibtn_editDept.ImagePosition = XanderUI.XUIButton.imgPosition.Center;
-            this.xuibtn_editDept.Location = new System.Drawing.Point(593, 507);
-            this.xuibtn_editDept.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.xuibtn_editDept.Name = "xuibtn_editDept";
-            this.xuibtn_editDept.Size = new System.Drawing.Size(93, 86);
-            this.xuibtn_editDept.TabIndex = 5;
-            this.xuibtn_editDept.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(200)))), ((int)(((byte)(185)))));
-            this.xuibtn_editDept.Vertical_Alignment = System.Drawing.StringAlignment.Center;
-            this.xuibtn_editDept.Click += new System.EventHandler(this.xuibtn_editDept_Click);
             // 
             // pictureBox1
             // 
